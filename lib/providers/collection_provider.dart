@@ -31,4 +31,9 @@ class CollectionProvider with ChangeNotifier {
     _collection!.collectionEntries = collectionEntries;
     notifyListeners();
   }
+
+  void deleteCollection() {
+    _collection = null;
+    notifyListeners();
+  }
 }
