@@ -10,4 +10,34 @@ class UserProvider with ChangeNotifier {
     _user = user;
     notifyListeners();
   }
+
+  void updateUserID(int userID) {
+    _user!.userID = userID;
+    notifyListeners();
+  }
+
+  void updateUserName(String userName) {
+    _user!.userName = userName;
+    notifyListeners();
+  }
+
+  void updateUserDob(int userDob) {
+    _user!.userDob = userDob;
+    notifyListeners();
+  }
+
+  void updateUserDescription(String userDescription) {
+    _user!.userDescription = userDescription;
+    notifyListeners();
+  }
+
+  void updateUserPicture(String userPicture) {
+    _user!.userPicture = userPicture;
+    notifyListeners();
+  }
+
+  void deleteUser() {
+    _user = null;
+    notifyListeners();
+  }
 }
