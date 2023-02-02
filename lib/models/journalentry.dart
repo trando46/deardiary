@@ -2,8 +2,8 @@
 
 class JournalEntryModel{
 
-  int journalEntryID;
-  int ownerID;
+  String journalEntryID;
+  String ownerID;
   String journalEntryTitle;
   String journalEntryContent;
   List<String> journalEntryTags = [];
