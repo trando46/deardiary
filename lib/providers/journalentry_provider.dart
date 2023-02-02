@@ -2,22 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:deardiary/models/journalentry.dart';
 
 class JournalEntryProvider with ChangeNotifier {
+
+  int journalEntryCounter = 0;
+
   JournalEntryModel? _journalEntry;
 
   JournalEntryModel? get journalEntry => _journalEntry;
+
+  void journalEntryIDCounter(JournalEntryModel journalEntryModel){
+    journalEntryCounter++;
+    journalEntryModel.journalEntryID= journalEntryCounter.toString();
+  }
 
   void setJournalEntry(JournalEntryModel journalEntry) {
     _journalEntry = journalEntry;
     notifyListeners();
   }
 
+  /*
   void updateJournalEntryID(int journalEntryID) {
     _journalEntry!.journalEntryID = journalEntryID;
     notifyListeners();
-  }
+  }*/
 
   void updateOwnerID(int ownerID) {
-    _journalEntry!.ownerID = ownerID;
+    _journalEntry!.ownerID = ownerID.toString();
     notifyListeners();
   }
 
