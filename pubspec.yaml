@@ -40,6 +40,11 @@ dependencies:
   # state management: https://pub.dev/packages/provider
   provider: ^6.0.5
 
+  # slidable (adding the slide for edit and delete) https://pub.dev/packages/flutter_slidable
+  flutter_slidable: ^2.0.0
+
+  side_navigation: ^1.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
