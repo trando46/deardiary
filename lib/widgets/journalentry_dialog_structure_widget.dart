@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 
 class JournalEntryDialogStructureWidget extends StatefulWidget {
   @override
-  _JournalEntryDialogStructureWidgetState createState() => _JournalEntryDialogStructureWidgetState();
+  _JournalEntryDialogStructureWidgetState createState() =>
+      _JournalEntryDialogStructureWidgetState();
 }
 
 /**
@@ -15,7 +16,8 @@ class JournalEntryDialogStructureWidget extends StatefulWidget {
  * Source: https://docs.flutter.dev/cookbook/forms/validation
  * Source: https://api.flutter.dev/flutter/material/AlertDialog-class.html
  */
-class _JournalEntryDialogStructureWidgetState extends State<JournalEntryDialogStructureWidget> {
+class _JournalEntryDialogStructureWidgetState
+    extends State<JournalEntryDialogStructureWidget> {
   // Global key that is unique for identifying the form widget
   // and to have validation of the form
   final _formKey = GlobalKey<FormState>();
@@ -24,11 +26,8 @@ class _JournalEntryDialogStructureWidgetState extends State<JournalEntryDialogSt
   String title = '';
   String description = '';
 
-
   @override
-  Widget build(BuildContext context) =>
-      AlertDialog(
-
+  Widget build(BuildContext context) => AlertDialog(
         content: Form(
           key: _formKey,
 
@@ -37,16 +36,13 @@ class _JournalEntryDialogStructureWidgetState extends State<JournalEntryDialogSt
             mainAxisSize: MainAxisSize.min,
             children: [
               // The text header for the task card
-              Text(
-                  'Add A Journal Entry',
+              const Text('Add A Journal Entry',
                   // text style
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Colors.blueGrey,
-                  )
-              ),
-
+                  )),
 
               // Adding spaces
               Container(height: 5),
@@ -56,15 +52,11 @@ class _JournalEntryDialogStructureWidgetState extends State<JournalEntryDialogSt
                   onSaved: addEntry,
                   userEntryTitle: (title) => setState(() => this.title = title),
                   userEntryContent: (description) =>
-                      setState(() => this.description = description)
-              ),
-
-
+                      setState(() => this.description = description)),
             ],
           ),
         ),
       );
-
 
   void addEntry() {
     // Add the todos to the list
@@ -81,10 +73,8 @@ class _JournalEntryDialogStructureWidgetState extends State<JournalEntryDialogSt
     // Call the provider
     final provider = Provider.of<JournalEntryProvider>(context, listen: false);
     provider.journalEntryIDCounter(entry);
-    provider.setJournalEntry(entry);
+    provider.addJournalEntry(entry);
     // Once the user hit save. Get out of the screen
     Navigator.of(context).pop();
   }
-
-
 }
