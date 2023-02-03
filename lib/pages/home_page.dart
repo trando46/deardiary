@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
     final tabs = [
       JournalEntryEntriesLayoutWidget(),
       // Settings(),
-      // JournalEntryEntriesLayoutWidget(),
     ];
 
     // Need to create Scaffold
@@ -43,6 +42,8 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
+      body: tabs[index],
+
       //Want to add the button to add the task
       floatingActionButton: FloatingActionButton(
         // change the background color
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           // if click outside the box entry area.
           barrierDismissible: false,
           context: context,
-          builder: (context) => JournalEntryDialogStructureWidget(),
+          builder: (context) => const JournalEntryDialogStructureWidget(),
         ),
       ),
     );
