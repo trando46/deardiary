@@ -2,71 +2,64 @@ import 'package:flutter/material.dart';
 import 'package:deardiary/models/journalentry.dart';
 
 class JournalEntryProvider with ChangeNotifier {
-
   int journalEntryCounter = 0;
 
-  JournalEntryModel? _journalEntry;
+  List<JournalEntryModel> _journalEntry = [];
 
-  JournalEntryModel? get journalEntry => _journalEntry;
+  List<JournalEntryModel> get journalEntry => _journalEntry.toList();
 
-  void journalEntryIDCounter(JournalEntryModel journalEntryModel){
+  void journalEntryIDCounter(JournalEntryModel journalEntryModel) {
     journalEntryCounter++;
-    journalEntryModel.journalEntryID= journalEntryCounter.toString();
+    journalEntryModel.journalEntryID = journalEntryCounter.toString();
   }
 
-  void setJournalEntry(JournalEntryModel journalEntry) {
-    _journalEntry = journalEntry;
+  void addJournalEntry(JournalEntryModel journalEntry) {
+    _journalEntry.add(journalEntry);
     notifyListeners();
   }
 
-  /*
-  void updateJournalEntryID(int journalEntryID) {
-    _journalEntry!.journalEntryID = journalEntryID;
-    notifyListeners();
-  }*/
-
-  void updateOwnerID(int ownerID) {
-    _journalEntry!.ownerID = ownerID.toString();
+  void updateOwnerID(JournalEntryModel entry, int ownerID) {
+    entry.ownerID = ownerID.toString();
     notifyListeners();
   }
 
-  void updateJournalEntryTitle(String journalEntryTitle) {
-    _journalEntry!.journalEntryTitle = journalEntryTitle;
+  void updateJournalEntryTitle(
+      JournalEntryModel entry, String journalEntryTitle) {
+    entry.journalEntryTitle = journalEntryTitle;
     notifyListeners();
   }
 
-  void updateJournalEntryContent(String journalEntryContent) {
-    _journalEntry!.journalEntryContent = journalEntryContent;
+  void updateJournalEntryContent(
+      JournalEntryModel entry, String journalEntryContent) {
+    entry.journalEntryContent = journalEntryContent;
     notifyListeners();
   }
 
-  void updateJournalEntryTags(List<String> journalEntryTags) {
-    _journalEntry!.journalEntryTags = journalEntryTags;
+  void updateJournalEntryTags(
+      JournalEntryModel entry, List<String> journalEntryTags) {
+    entry.journalEntryTags = journalEntryTags;
     notifyListeners();
   }
 
-  void updateJournalEntryImage(String journalEntryImage) {
-    _journalEntry!.journalEntryImage = journalEntryImage;
+  void updateJournalEntryImage(
+      JournalEntryModel entry, String journalEntryImage) {
+    entry.journalEntryImage = journalEntryImage;
     notifyListeners();
   }
 
-  void updateJournalEntryGeo(String journalEntryGeo) {
-    _journalEntry!.journalEntryGeo = journalEntryGeo;
+  void updateJournalEntryGeo(JournalEntryModel entry, String journalEntryGeo) {
+    entry.journalEntryGeo = journalEntryGeo;
     notifyListeners();
   }
 
-  void updateJournalEntryCreationDate(DateTime journalEntryCreationDate) {
-    _journalEntry!.journalEntryCreationDate = journalEntryCreationDate;
+  void updateJournalEntryLastUpdate(
+      JournalEntryModel entry, DateTime journalEntryLastUpdate) {
+    entry.journalEntryLastUpdate = journalEntryLastUpdate;
     notifyListeners();
   }
 
-  void updateJournalEntryLastUpdate(DateTime journalEntryLastUpdate) {
-    _journalEntry!.journalEntryLastUpdate = journalEntryLastUpdate;
-    notifyListeners();
-  }
-
-  void deleteJournalEntry() {
-    _journalEntry = null;
+  void deleteJournalEntry(JournalEntryModel entry) {
+    _journalEntry.remove(entry);
     notifyListeners();
   }
 }
