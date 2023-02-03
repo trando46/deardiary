@@ -4,7 +4,7 @@ import 'package:deardiary/models/journalentry.dart';
 class JournalEntryProvider with ChangeNotifier {
   int journalEntryCounter = 0;
 
-  List<JournalEntryModel> _journalEntry = [];
+  final List<JournalEntryModel> _journalEntry = [];
 
   List<JournalEntryModel> get allJournalEntries => _journalEntry.toList();
 
