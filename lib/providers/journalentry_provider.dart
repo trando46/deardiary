@@ -6,7 +6,7 @@ class JournalEntryProvider with ChangeNotifier {
 
   List<JournalEntryModel> _journalEntry = [];
 
-  List<JournalEntryModel> get journalEntry => _journalEntry.toList();
+  List<JournalEntryModel> get allJournalEntries => _journalEntry.toList();
 
   void journalEntryIDCounter(JournalEntryModel journalEntryModel) {
     journalEntryCounter++;
