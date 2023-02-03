@@ -9,7 +9,8 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
   final JournalEntryModel journalEntryModel;
 
   // Constructor
-  JournalEntryIndividualUIWidget({
+  const JournalEntryIndividualUIWidget({
+    super.key,
     required this.journalEntryModel,
   });
 
