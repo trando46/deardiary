@@ -42,10 +42,10 @@ class JournalEntryFormInputsWidget extends StatelessWidget {
         onChanged: userEntryTitle,
         // The max line that will be display for the user to fill out is 1
         maxLines: 1,
-        style: TextStyle(height: 1),
+        style: const TextStyle(height: 1),
 
         // Display the input text box for the title
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Title',
           border: OutlineInputBorder(),
         ),
@@ -58,35 +58,31 @@ class JournalEntryFormInputsWidget extends StatelessWidget {
         onChanged: userEntryContent,
         // The max line that will be display for the user to fill out is 1
         maxLines: 2,
-        style: TextStyle(height: 2),
+        style: const TextStyle(height: 2),
 
         // Display the input text box for the title
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Description',
           border: OutlineInputBorder(),
         ),
       );
 
-  Widget exitFormWidget(context) => Container(
-        child: ElevatedButton(
-          child: Text('Exit'),
-          onPressed: () => Navigator.pop(context),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.black),
-            alignment: Alignment.center,
-          ), //
-          // Go back to the original screen (this case it is home)
+  Widget exitFormWidget(context) => ElevatedButton(
+        onPressed: () => Navigator.of(context).pop,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.black),
+          alignment: Alignment.center,
         ),
+        child: const Text('Exit'), //
+        // Go back to the original screen (this case it is home)
       );
 
-  Widget saveFormWidget() => Container(
-        child: ElevatedButton(
-          child: Text('Save'),
-          onPressed: onSaved,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.green),
-            alignment: Alignment.center,
-          ),
+  Widget saveFormWidget() => ElevatedButton(
+        onPressed: onSaved,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.green),
+          alignment: Alignment.center,
         ),
+        child: const Text('Save'),
       );
 }
