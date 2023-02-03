@@ -19,42 +19,65 @@ class JournalEntryProvider with ChangeNotifier {
   }
 
   void updateOwnerID(JournalEntryModel entry, int ownerID) {
-    entry.ownerID = ownerID.toString();
+    if (_journalEntry.contains(entry)) {
+      _journalEntry[_journalEntry.indexOf(entry)].ownerID = ownerID.toString();
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
+          DateTime.now();
+    }
     notifyListeners();
   }
 
   void updateJournalEntryTitle(
       JournalEntryModel entry, String journalEntryTitle) {
-    entry.journalEntryTitle = journalEntryTitle;
+    if (_journalEntry.contains(entry)) {
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryTitle =
+          journalEntryTitle;
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
+          DateTime.now();
+    }
     notifyListeners();
   }
 
   void updateJournalEntryContent(
       JournalEntryModel entry, String journalEntryContent) {
-    entry.journalEntryContent = journalEntryContent;
+    if (_journalEntry.contains(entry)) {
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryContent =
+          journalEntryContent;
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
+          DateTime.now();
+    }
     notifyListeners();
   }
 
   void updateJournalEntryTags(
       JournalEntryModel entry, List<String> journalEntryTags) {
-    entry.journalEntryTags = journalEntryTags;
+    if (_journalEntry.contains(entry)) {
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryTags =
+          journalEntryTags;
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
+          DateTime.now();
+    }
     notifyListeners();
   }
 
   void updateJournalEntryImage(
       JournalEntryModel entry, String journalEntryImage) {
-    entry.journalEntryImage = journalEntryImage;
+    if (_journalEntry.contains(entry)) {
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryImage =
+          journalEntryImage;
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
+          DateTime.now();
+    }
     notifyListeners();
   }
 
   void updateJournalEntryGeo(JournalEntryModel entry, String journalEntryGeo) {
-    entry.journalEntryGeo = journalEntryGeo;
-    notifyListeners();
-  }
-
-  void updateJournalEntryLastUpdate(
-      JournalEntryModel entry, DateTime journalEntryLastUpdate) {
-    entry.journalEntryLastUpdate = journalEntryLastUpdate;
+    if (_journalEntry.contains(entry)) {
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryGeo =
+          journalEntryGeo;
+      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
+          DateTime.now();
+    }
     notifyListeners();
   }
 
