@@ -2,6 +2,7 @@ import 'package:deardiary/widgets/journalentry_dialog_structure_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import '../widgets/journalentry_entries_layout_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,13 +11,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int index = 0;
   @override
   Widget build(BuildContext context) {
+    final tabs = [
+      JournalEntryEntriesLayoutWidget(),
+      // Settings(),
+      // JournalEntryEntriesLayoutWidget(),
+    ];
+
     // Need to create Scaffold
     return Scaffold(
       appBar: AppBar(
         title: Text(MyApp.title),
         // Getting the title variable from main.dart
+      ),
+
+      //shows list of entries
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: index,
+        onTap: (index) => setState(() => this.index = index),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Entries',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
       ),
 
       //Want to add the button to add the task
