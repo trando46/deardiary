@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -11,10 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
-
     // Need to create Scaffold
     return Scaffold(
       appBar: AppBar(
@@ -24,10 +21,9 @@ class _HomePageState extends State<HomePage> {
 
       //Want to add the button to add the task
       floatingActionButton: FloatingActionButton(
-
         // change the background color
         backgroundColor: Colors.black,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
 
         // This will create the popup for the task
         // user will enter the tasks and description
@@ -36,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           // if click outside the box entry area.
           barrierDismissible: false,
           context: context,
-          builder: (context) =>JournalEntryDialogStructureWidget(),
+          builder: (context) => JournalEntryDialogStructureWidget(),
         ),
       ),
     );
