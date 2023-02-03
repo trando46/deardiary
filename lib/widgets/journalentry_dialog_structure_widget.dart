@@ -49,10 +49,11 @@ class _JournalEntryDialogStructureWidgetState
 
               // The form for the task card to fill out and save the users input
               JournalEntryFormInputsWidget(
-                  onSaved: addEntry,
-                  userEntryTitle: (title) => setState(() => this.title = title),
-                  userEntryContent: (description) =>
-                      setState(() => this.description = description)),
+                userEntryTitle: (title) => setState(() => this.title = title),
+                userEntryContent: (description) =>
+                    setState(() => this.description = description),
+                onSaved: addEntry,
+              ),
             ],
           ),
         ),
