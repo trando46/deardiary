@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class JournalEntryDialogStructureWidget extends StatefulWidget {
+  const JournalEntryDialogStructureWidget({Key? key}) : super(key: key);
+
   @override
   _JournalEntryDialogStructureWidgetState createState() =>
       _JournalEntryDialogStructureWidgetState();
