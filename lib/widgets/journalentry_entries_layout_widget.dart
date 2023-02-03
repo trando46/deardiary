@@ -1,3 +1,4 @@
+import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_individual_ui_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -5,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class JournalEntryEntriesLayoutWidget extends StatelessWidget {
+  const JournalEntryEntriesLayoutWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<JournalEntryProvider>(context);
-    // Display all status of the task cards minus the completed
-    final entries = provider.journalEntry;
+    final List<JournalEntryModel> entries =
+        Provider.of<JournalEntryProvider>(context).allJournalEntries;
 
     // Need to take care of no todos and todos
     return ListView.separated(
