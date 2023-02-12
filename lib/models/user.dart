@@ -1,4 +1,13 @@
+final String tableUserModel = 'usermodel';
 
+
+class UserModelFields{
+  static final String userID = '_id';
+  static final String userName = 'userName';
+  static final String userDob = '0';
+  static final String userDescription = 'userDescription';
+  static final String userPicture = 'userPicture';
+}
 
 class UserModel  {
   int userID;
