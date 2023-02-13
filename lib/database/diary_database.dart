@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:deardiary/models/collection.dart';
 import 'package:deardiary/models/journalentry.dart';
-import 'package:deardiary/models/user.dart';
+//import 'package:deardiary/models/collection.dart';
+//import 'package:deardiary/models/user.dart';
 
 
 class DiaryDatabase{
@@ -10,7 +10,7 @@ class DiaryDatabase{
 
   static Database? _database; //creating db.
 
-  DiaryDatabase.init(); //initalizing db.
+  DiaryDatabase.init(); //initializing db.
 
 
   Future<Database> get database async{
@@ -32,7 +32,32 @@ class DiaryDatabase{
 
   Future _createDB(Database db, int version) async{
     //placeholder for schema
+    const idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
+    const integerType = "INTEGER NOT NULL";
+    const textType = "TEXT NOT NULL";
 
+
+    await db.execute('''
+        CREATE TABLE $tableJournalEntry (
+        ${JournalEntryModelFields.id} $idType,
+        ${JournalEntryModelFields.ownerID} $integerType,
+        ${JournalEntryModelFields.journalEntryTitle} $textType,
+        ${JournalEntryModelFields.journalEntryContent} $textType,
+        ${JournalEntryModelFields.journalEntryTags} $textType,
+        ${JournalEntryModelFields.journalEntryImage} $textType,
+        ${JournalEntryModelFields.journalEntryGeo} $textType, //Switch to better? geo location later
+        ${JournalEntryModelFields.journalEntryCreationDate} $textType, //Convert out on parse
+        ${JournalEntryModelFields.journalEntryLastUpdate} $textType, //Convert back out on parse
+    )
+    ''');
+  }
+
+  Future<JournalEntryModel> create(JournalEntryModel journal) async {
+    final db = await instance.database;
+
+    final id = await db.insert(tableJournalEntry, journal.toJson());
+
+    return journal.copy(journalEntryID: id.toString());
 
   }
 
