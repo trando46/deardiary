@@ -1,4 +1,5 @@
 import 'package:deardiary/models/journalentry.dart';
+import 'package:deardiary/pages/display_an_entry_content_page.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -69,7 +70,8 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
         // when tap on the card it will display the todos content
         key: const ValueKey('gesture_detector'),
         //onTap: () => displayTodoContent(context, journalEntryModel),
-        onTap: () {}, //TODO: route to the appropriate page later
+    //TODO: route to the appropriate page later
+        onTap: () => displayJournalContent(context,journalEntryModel),
         child: Container(
           color: Colors.white,
           // Padding between the interior boxes
@@ -116,12 +118,11 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
       );*/
 
   /**(
-   * Routing to the page that display all of the task attributes
+   * Routing to the page that display all of the journal entry attributes
    */
-  /*
   void displayJournalContent(BuildContext context, JournalEntryModel  journalEntryModel) =>
       Navigator.of(context).push(
         MaterialPageRoute(
-            builder: (context) => DisplayTodoContentPage(todo: journalEntryModel)),
-      );*/
+            builder: (context) => DisplayAnEntryContentPage(entry: journalEntryModel)),
+      );
 }
