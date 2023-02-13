@@ -18,7 +18,7 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ClipPath(
           child: Slidable(
-        key: Key(journalEntryModel.journalEntryID),
+        //key: Key(journalEntryModel.journalEntryID),
 
         // The start action pane is the one at the left or the top side. This
         // will be the edit and remove functionality
