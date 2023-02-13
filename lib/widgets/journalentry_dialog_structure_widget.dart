@@ -65,7 +65,7 @@ class _JournalEntryDialogStructureWidgetState
     // Add the todos to the list
 
     final entry = JournalEntryModel(
-      journalEntryID: "",
+      //journalEntryID: "", //no more journal entry id.
       ownerID: "",
       journalEntryTitle: title,
       journalEntryContent: description,
@@ -75,7 +75,7 @@ class _JournalEntryDialogStructureWidgetState
 
     // Call the provider
     final provider = Provider.of<JournalEntryProvider>(context, listen: false);
-    provider.journalEntryIDCounter(entry);
+    //provider.journalEntryIDCounter(entry);
     provider.addJournalEntry(entry);
     // Once the user hit save. Get out of the screen
     Navigator.of(context).pop();
