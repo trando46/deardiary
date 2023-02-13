@@ -1,3 +1,4 @@
+import 'package:deardiary/widgets/calendar_widget.dart';
 import 'package:deardiary/widgets/journalentry_dialog_structure_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final tabs = [
       const JournalEntryEntriesLayoutWidget(),
+      const CalendarWidget(),
       // Settings(),
     ];
 
@@ -34,6 +36,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'Entries',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: 'Calendar',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
