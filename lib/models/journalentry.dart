@@ -1,9 +1,13 @@
 
+import 'dart:convert';
+
 final String tableJournalEntry = 'journalentry';
 
+
+
 class JournalEntryModelFields{
-  static const String id = '_id';
-  static const String ownerID = '_oid';
+  static const String journalEntryID = 'journalEntryID';
+  static const String ownerID = 'ownerID';
   static const String journalEntryTitle = 'journalEntryTitle';
   static const String journalEntryContent = 'journalEntryContent';
   static const String journalEntryTags = "journalEntryTags"; // will parse a lsit of entry tags later.
@@ -12,16 +16,23 @@ class JournalEntryModelFields{
   static const String journalEntryCreationDate = "creationTime";         //DateTime.now();
   static const String journalEntryLastUpdate = "updateTime";
 
+  static final List<String> values = [
+    journalEntryID, ownerID, journalEntryTitle, journalEntryContent,
+    journalEntryTags, journalEntryImage, journalEntryGeo, journalEntryCreationDate,
+    journalEntryLastUpdate
+  ];
 
 }
 
+
 class JournalEntryModel{
 
-  String? journalEntryID;
+  int? journalEntryID;
   String ownerID;
   String journalEntryTitle;
   String journalEntryContent;
   List<String> journalEntryTags = [];
+  //String journalEntryTags; //will now be a string with " " separating tags.
   String journalEntryImage;
   String journalEntryGeo;
   DateTime journalEntryCreationDate;
@@ -29,7 +40,8 @@ class JournalEntryModel{
 
 
   JournalEntryModel({
-    required this.journalEntryID,
+    //required this.journalEntryID,
+    this.journalEntryID,
     required this.ownerID,
     required this.journalEntryTitle,
     required this.journalEntryCreationDate,
@@ -45,42 +57,31 @@ class JournalEntryModel{
     return ownerID;
   }
 
+  /**
+   * Must turn the object into map, so use JSON.
+   */
   Map<String, Object?> toJson() => {
-    JournalEntryModelFields.id: journalEntryID,
+    JournalEntryModelFields.journalEntryID: journalEntryID,
     JournalEntryModelFields.ownerID: ownerID,
     JournalEntryModelFields.journalEntryTitle: journalEntryTitle,
     JournalEntryModelFields.journalEntryContent: journalEntryContent,
     JournalEntryModelFields.journalEntryGeo: journalEntryGeo,
     JournalEntryModelFields.journalEntryImage: journalEntryImage,
-    JournalEntryModelFields.journalEntryTags: journalEntryTags,
+    JournalEntryModelFields.journalEntryTags: jsonEncode(journalEntryTags), //turns list to json strings
     JournalEntryModelFields.journalEntryCreationDate: journalEntryCreationDate.toIso8601String(), // converting
     JournalEntryModelFields.journalEntryLastUpdate: journalEntryLastUpdate.toIso8601String() // converting
   };
 
-  JournalEntryModel copy({
-  String? journalEntryID,
-  String? ownerID,
-  String? journalEntryTitle,
-  String? journalEntryContent,
-  List<String>? journalEntryTags,
-  String? journalEntryImage,
-  String? journalEntryGeo,
-  DateTime? journalEntryCreationDate,
-  DateTime? journalEntryLastUpdate,
-
-}) => JournalEntryModel(
-    journalEntryID : journalEntryID ?? this.journalEntryID,
-    ownerID : ownerID ?? this.ownerID,
-    journalEntryTitle : journalEntryTitle ?? this.journalEntryTitle ,
-    journalEntryContent : journalEntryContent ?? this.journalEntryContent ,
-    //journalEntryTags : journalEntryTags ?? this.journalEntryTags, //not part of model?
-    journalEntryImage : journalEntryImage ?? this.journalEntryImage,
-    journalEntryGeo : journalEntryGeo ?? this.journalEntryGeo,
-    journalEntryCreationDate : journalEntryCreationDate ?? this.journalEntryCreationDate,
-    journalEntryLastUpdate : journalEntryLastUpdate ?? this.journalEntryLastUpdate,
+  static JournalEntryModel fromJson(Map<String, Object?> json) => JournalEntryModel(
+    journalEntryID: json[JournalEntryModelFields.journalEntryID] as int,
+    ownerID: json[JournalEntryModelFields.ownerID] as String,
+    journalEntryTitle: json[JournalEntryModelFields.journalEntryTitle] as String,
+    journalEntryContent: json[JournalEntryModelFields.journalEntryContent] as String,
+    journalEntryImage: json[JournalEntryModelFields.journalEntryImage] as String,
+    journalEntryCreationDate: DateTime.parse(json[JournalEntryModelFields.journalEntryCreationDate] as String),
+    journalEntryLastUpdate: DateTime.parse(json[JournalEntryModelFields.journalEntryLastUpdate] as String),
+    //pending geting journal tags back out.
   );
-
-
 
 
 }
