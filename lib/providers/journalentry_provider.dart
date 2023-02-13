@@ -1,21 +1,41 @@
+import 'package:deardiary/database/diary_database.dart';
 import 'package:flutter/material.dart';
 import 'package:deardiary/models/journalentry.dart';
 
 class JournalEntryProvider with ChangeNotifier {
-  int journalEntryCounter = 0;
+  //int journalEntryCounter = 0;
 
-  final List<JournalEntryModel> _journalEntry = [];
+  List<JournalEntryModel> _journalEntry = [];
 
   List<JournalEntryModel> get allJournalEntries => _journalEntry.toList();
 
-  void journalEntryIDCounter(JournalEntryModel journalEntryModel) {
-    journalEntryCounter++;
-    journalEntryModel.journalEntryID = journalEntryCounter.toString();
+  JournalEntryProvider(){
+    _getAllEntriesAsync();
   }
 
-  void addJournalEntry(JournalEntryModel journalEntry) {
-    _journalEntry.add(journalEntry);
+
+  Future _getAllEntriesAsync() async {
+    final entries = await DiaryDatabase.instance.getAll();
+    _journalEntry = entries;
     notifyListeners();
+
+  }
+
+
+
+/*  void journalEntryIDCounter(JournalEntryModel journalEntryModel) {
+    //journalEntryCounter++;
+    //journalEntryModel.journalEntryID = journalEntryCounter.toString();
+  }*/
+
+  void addJournalEntry(JournalEntryModel journalEntry) {
+    //_journalEntry.add(journalEntry);   //moving to database not provider.
+
+    //Adding in journal entry connection. - Greg
+    DiaryDatabase.instance.create(journalEntry);
+
+    _getAllEntriesAsync();
+    //notifyListeners();
   }
 
   void updateOwnerID(JournalEntryModel entry, int ownerID) {
