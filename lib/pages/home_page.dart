@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
     final tabs = [
       const JournalEntryEntriesLayoutWidget(),
       const CalendarWidget(),
+      Container(), // Temporary holder so that the Settings widget does not crash
       // Settings(),
     ];
 
