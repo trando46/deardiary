@@ -67,15 +67,22 @@ class JournalEntryFormInputsWidget extends StatelessWidget {
         ),
       );
 
-  Widget exitFormWidget(context) => ElevatedButton(
-        onPressed: () => Navigator.of(context).pop,
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.black),
-          alignment: Alignment.center,
-        ),
-        child: const Text('Exit'), //
-        // Go back to the original screen (this case it is home)
-      );
+  /***
+   * The exit form widget allow the user to exit if they changed their mind
+   * about recording their journal
+   */
+  Widget exitFormWidget(context) => Container(
+    key: Key('Exit'),
+    child: ElevatedButton(
+      child: Text('Exit'),
+      onPressed: () => Navigator.pop(context),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.black),
+        alignment: Alignment.center,
+      ),//
+      // Go back to the original screen (this case it is home)
+    ),
+  );
 
   Widget saveFormWidget() => ElevatedButton(
         onPressed: onSaved,
