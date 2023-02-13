@@ -5,12 +5,26 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class JournalEntryEntriesLayoutWidget extends StatelessWidget {
+import '../database/diary_database.dart';
+
+class JournalEntryEntriesLayoutWidget extends StatefulWidget {
   const JournalEntryEntriesLayoutWidget({super.key});
+
+  _JournalEntryEntriesLayoutWidgetState createState() =>
+      _JournalEntryEntriesLayoutWidgetState();
+}
+
+class _JournalEntryEntriesLayoutWidgetState extends State<JournalEntryEntriesLayoutWidget>
+{
+  @override
+  void initState()
+  {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<JournalEntryModel> entries =
+    final List<JournalEntryModel> entries = //allEntries;
         Provider.of<JournalEntryProvider>(context).allJournalEntries;
 
     // Need to take care of no todos and todos
