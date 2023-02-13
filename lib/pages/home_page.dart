@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      JournalEntryEntriesLayoutWidget(),
+      const JournalEntryEntriesLayoutWidget(),
       // Settings(),
     ];
 
