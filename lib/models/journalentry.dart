@@ -2,22 +2,22 @@
 final String tableJournalEntry = 'journalentry';
 
 class JournalEntryModelFields{
-  static final String journalEntryId = '_id';
+  static final String id = '_id';
   static final String ownerId = '_oid';
   static final String journalEntryTitle = 'journalEntryTitle';
   static final String journalEntryContent = 'journalEntryContent';
-  static final String journalEntryTags = "pending";//TODO: check this, maybe another table.
+  static final String journalEntryTags = "journalEntryTags"; // will parse a lsit of entry tags later.
   static final String journalEntryImage = "journalEntryImage";
-  static const String journalEntryGeo = "journalEntryImage";
-  static final DateTime journalEntryCreationDate = DateTime.now();
-  static final DateTime journalEntryLastUpdate = DateTime.now();
+  static const String journalEntryGeo = "journalEntryGeo";
+  static final String journalEntryCreationDate = "creationTime";         //DateTime.now();
+  static final String journalEntryLastUpdate = "updateTime";
 
 
 }
 
 class JournalEntryModel{
 
-  String journalEntryID;
+  String? journalEntryID;
   String ownerID;
   String journalEntryTitle;
   String journalEntryContent;
@@ -39,4 +39,17 @@ class JournalEntryModel{
     this.journalEntryGeo ='',
 
   });
+
+  Map<String, Object?> toJson() => {
+    JournalEntryModelFields.id: journalEntryID,
+    JournalEntryModelFields.ownerId: ownerID,
+    JournalEntryModelFields.journalEntryTitle: journalEntryTitle,
+    JournalEntryModelFields.journalEntryContent: journalEntryContent,
+    JournalEntryModelFields.journalEntryGeo: journalEntryGeo,
+    JournalEntryModelFields.journalEntryImage: journalEntryImage,
+    JournalEntryModelFields.journalEntryTags: journalEntryTags,
+    JournalEntryModelFields.journalEntryCreationDate: journalEntryCreationDate.toIso8601String(), // converting
+    JournalEntryModelFields.journalEntryLastUpdate: journalEntryLastUpdate.toIso8601String() // converting
+  };
+
 }
