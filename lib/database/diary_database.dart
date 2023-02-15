@@ -100,6 +100,15 @@ class DiaryDatabase{
 
   }
 
+  Future delete(JournalEntryModel journal) async {
+    final db = await instance.database;
+
+    var journalID = journal.journalEntryID;
+
+    await db.rawQuery("DELETE FROM $tableJournalEntry WHERE journalEntryID = $journalID");
+    //db.delete(tableJournalEntry,journalID );
+
+  }
 
 
   Future close() async{

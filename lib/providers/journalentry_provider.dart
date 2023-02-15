@@ -103,6 +103,9 @@ class JournalEntryProvider with ChangeNotifier {
 
   void deleteJournalEntry(JournalEntryModel entry) {
     _journalEntry.remove(entry);
+    DiaryDatabase.instance.delete(entry);
+    _getAllEntriesAsync();
+
     notifyListeners();
   }
 }
