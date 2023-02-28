@@ -2,6 +2,8 @@
 import 'package:deardiary/models/journalentry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class DisplayAnEntryContentPage extends StatelessWidget{
   final JournalEntryModel entry;
@@ -54,6 +56,15 @@ class DisplayAnEntryContentPage extends StatelessWidget{
                     ),
                   ),
                 ),
+
+              Container(
+                height: 120,
+                width: 120,
+                color: Colors.black38,
+                child: entry.journalEntryImage == '' ? Icon(Icons.image,)
+                    : Image.memory(base64Decode(entry.journalEntryImage)),
+
+              ),
 
               //If we have the description we want to display the description
               if(entry.journalEntryContent.isNotEmpty)

@@ -57,7 +57,7 @@ class JournalEntryFormInputsWidget extends StatelessWidget {
         // This will display whatever the user type for the task
         onChanged: userEntryContent,
         // The max line that will be display for the user to fill out is 1
-        maxLines: 2,
+        maxLines: 4,
         style: const TextStyle(height: 2),
 
         // Display the input text box for the title

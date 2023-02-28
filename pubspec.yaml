@@ -48,6 +48,26 @@ dependencies:
 
   table_calendar: ^3.0.9
 
+  path_provider: ^2.0.12
+
+  camera: ^0.10.3
+
+  image_picker: ^0.8.6+1
+
+  intl: ^0.18.0
+
+  shared_preferences: ^2.0.15
+
+  path: ^1.8.2
+
+  http: ^0.13.5
+
+  build_runner: ^2.3.3
+
+  syncfusion_flutter_pdf: ^20.4.51
+
+  open_file: ^3.2.1
+
 
 dev_dependencies:
   flutter_test:
