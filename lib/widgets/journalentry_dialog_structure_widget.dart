@@ -1,9 +1,11 @@
 import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_form_inputs_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -32,90 +34,99 @@ class _JournalEntryDialogStructureWidgetState
   String description = '';
   String imageFile = '';
   ImagePicker image = ImagePicker();
+  bool useGeolocation = false;
+  late Position location; // = async _determinePosition();
 
   @override
-  Widget build(BuildContext context) => ListView(
-    children: [
-  AlertDialog(
-  content: Form(
-  key: _formKey,
+  Widget build(BuildContext context) => ListView(children: [
+        AlertDialog(
+          content: Form(
+            key: _formKey,
 
-    // Want to put the data inside the column
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // The text header for the task card
-        const Text('Add A Journal Entry',
-            // text style
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-              color: Colors.blueGrey,
-            )),
+            // Want to put the data inside the column
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // The text header for the task card
+                const Text('Add A Journal Entry',
+                    // text style
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.blueGrey,
+                    )),
 
-        Container(height: 10),
+                Container(height: 10),
 
-        // display the image
-        Center(
-          child: Row(
-            children: [
-              Container(
-                height: 100,
-                width: 100,
-                color: Colors.black38,
-                child: imageFile == '' ? Icon(Icons.image,)
-                    : Image.memory(base64Decode(imageFile)),
-              ),
+                // display the image
+                Center(
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 100,
+                        width: 100,
+                        color: Colors.black38,
+                        child: imageFile == ''
+                            ? Icon(
+                                Icons.image,
+                              )
+                            : Image.memory(base64Decode(imageFile)),
+                      ),
 
-              // buttons to select if they want camera or gallery
-              Row(
-                children: [
-                  FloatingActionButton(
-                    // change the background color
-                    backgroundColor: Colors.black,
-                    child: Icon(Icons.camera_alt_rounded),
-                    onPressed: () {
-                      getCamera();
-                    },
+                      // buttons to select if they want camera or gallery
+                      Row(
+                        children: [
+                          FloatingActionButton(
+                            // change the background color
+                            backgroundColor: Colors.black,
+                            child: Icon(Icons.camera_alt_rounded),
+                            onPressed: () {
+                              getCamera();
+                            },
+                          ),
+                          Container(width: 10),
+                          FloatingActionButton(
+                            // change the background color
+                            backgroundColor: Colors.black,
+                            child: Icon(Icons.photo),
+                            onPressed: () {
+                              getGallery();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+                ),
 
-                  Container(width: 10),
+                // Adding spaces
+                Container(height: 5),
 
-                  FloatingActionButton(
-                    // change the background color
-                    backgroundColor: Colors.black,
-                    child: Icon(Icons.photo),
-                    onPressed: () {
-                      getGallery();
-                    },
-                  ),
-
-                ],
-              ),
-            ],
+                // The form for the task card to fill out and save the users input
+                JournalEntryFormInputsWidget(
+                  userEntryTitle: (title) => setState(() => this.title = title),
+                  userEntryContent: (description) =>
+                      setState(() => this.description = description),
+                  userGeolocation: (useGeolocation) =>
+                      setState(() => this.useGeolocation = useGeolocation),
+                  onSaved: addEntry,
+                ),
+              ],
+            ),
           ),
         ),
+      ]);
 
-        // Adding spaces
-        Container(height: 5),
-
-        // The form for the task card to fill out and save the users input
-        JournalEntryFormInputsWidget(
-          userEntryTitle: (title) => setState(() => this.title = title),
-          userEntryContent: (description) =>
-              setState(() => this.description = description),
-          onSaved: addEntry,
-        ),
-      ],
-    ),
-  ),
-  ),
-    ]
-  );
-
-
-  void addEntry() {
+  void addEntry() async {
     // Add the todos to the list
+
+    if (useGeolocation) {
+      location = await _determinePosition();
+
+      if (kDebugMode) {
+        print(location.toString());
+      }
+    }
 
     final entry = JournalEntryModel(
       //journalEntryID: "", //no more journal entry id.
@@ -125,12 +136,15 @@ class _JournalEntryDialogStructureWidgetState
       journalEntryCreationDate: DateTime.now(),
       journalEntryLastUpdate: DateTime.now(),
       journalEntryImage: imageFile,
+      journalEntryGeo:
+          useGeolocation ? "${location.latitude}, ${location.longitude}" : "",
     );
 
     // Call the provider
     final provider = Provider.of<JournalEntryProvider>(context, listen: false);
     //provider.journalEntryIDCounter(entry);
     provider.addJournalEntry(entry);
+
     // Once the user hit save. Get out of the screen
     Navigator.of(context).pop();
   }
@@ -140,10 +154,10 @@ class _JournalEntryDialogStructureWidgetState
    */
   getCamera() async {
     var img = await image.pickImage(source: ImageSource.camera);
-    if(img != null) {
+    if (img != null) {
       setState(() {
-        File filename = File(img!.path);
-        List<int> name =filename.readAsBytesSync();
+        File filename = File(img.path);
+        List<int> name = filename.readAsBytesSync();
         imageFile = base64Encode(name);
       });
     }
@@ -154,13 +168,39 @@ class _JournalEntryDialogStructureWidgetState
    */
   getGallery() async {
     var img = await image.pickImage(source: ImageSource.gallery);
-    if(img != null){
+    if (img != null) {
       setState(() {
-        File filename = File(img!.path);
-        List<int> name =filename.readAsBytesSync();
+        File filename = File(img.path);
+        List<int> name = filename.readAsBytesSync();
         imageFile = base64Encode(name);
       });
     }
   }
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
 }
