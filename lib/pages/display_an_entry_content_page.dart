@@ -88,7 +88,7 @@ class DisplayAnEntryContentPage extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     child: Text(
-                      'Location: Latitude = ${entry.journalEntryGeo}',
+                      'Location: \n- Latitude = ${entry.journalEntryGeo.split(',')[0]}\n- Longitude = ${entry.journalEntryGeo.split(',')[1]}',
                       style: const TextStyle(
                         fontSize: 22,
                       ),
