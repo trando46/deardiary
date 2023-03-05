@@ -67,6 +67,7 @@ dependencies:
   syncfusion_flutter_pdf: ^20.4.51
 
   open_file: ^3.2.1
+  geolocator: ^9.0.2
 
 
 dev_dependencies:
