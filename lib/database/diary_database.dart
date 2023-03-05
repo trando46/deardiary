@@ -3,21 +3,19 @@ import 'package:deardiary/models/journalentry.dart';
 //import 'package:deardiary/models/collection.dart';
 //import 'package:deardiary/models/user.dart';
 
-
 /**
  * DiaryDatabase is the local Sqlite.
  */
-class DiaryDatabase{
-
+class DiaryDatabase {
   static final DiaryDatabase instance = DiaryDatabase._init();
 
   static Database? _database; //creating db.
 
   DiaryDatabase._init(); //initializing db.
 
-
-  Future<Database> get database async{
-    if(_database != null) return _database!; //return database if it does not exist.
+  Future<Database> get database async {
+    if (_database != null)
+      return _database!; //return database if it does not exist.
 
     //otherwise create new db.
     _database = await _initDB('deardiary.db');
@@ -25,21 +23,21 @@ class DiaryDatabase{
   }
 
   //manage path
-  Future<Database> _initDB(String filePath) async{
-    final dbPath = await getDatabasesPath(); //gets database path location only for android or ios.
+  Future<Database> _initDB(String filePath) async {
+    final dbPath =
+        await getDatabasesPath(); //gets database path location only for android or ios.
     //final path = join(dbPath, filePath);
-    final path = dbPath+filePath;
+    final path = dbPath + filePath;
 
     //return await openDatabase(path, version: 3, onCreate: _createDB, onUpgrade: _upgradeDB);
     return await openDatabase(path, version: 2, onCreate: _createDB);
   }
 
-
 /*  Future _upgradeDB(Database db, int oldversion, int newversion) async{
     return _createDB(db, newversion);
   }*/
 
-  Future _createDB(Database db, int version) async{
+  Future _createDB(Database db, int version) async {
     //placeholder for schema
     const idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
     const integerType = "INTEGER NOT NULL";
@@ -67,19 +65,17 @@ class DiaryDatabase{
 
     // Query the table for all The Dogs.
     final maps = await db.query(
-        tableJournalEntry,
-        columns: JournalEntryModelFields.values,
-        where: '${JournalEntryModelFields.journalEntryID} = ?',
-        whereArgs: [id],
+      tableJournalEntry,
+      columns: JournalEntryModelFields.values,
+      where: '${JournalEntryModelFields.journalEntryID} = ?',
+      whereArgs: [id],
     );
 
-    if (maps.isEmpty)
-    {
+    if (maps.isEmpty) {
       throw Exception("Journal Entry Missing ID:  $id");
     }
 
     return JournalEntryModel.fromJson(maps.first);
-
   }
 
   Future<List<JournalEntryModel>> getAll() async {
@@ -88,16 +84,20 @@ class DiaryDatabase{
     final allEntries = await db.query(tableJournalEntry);
 
     return allEntries.map((j) => JournalEntryModel.fromJson(j)).toList();
-
-
   }
-
 
   Future create(JournalEntryModel journal) async {
     final db = await instance.database;
 
     await db.insert(tableJournalEntry, journal.toJson());
+  }
 
+  Future update(JournalEntryModel journal) async {
+    final db = await instance.database;
+
+    await db.update(tableJournalEntry, journal.toJson(),
+        where: '${JournalEntryModelFields.journalEntryID} = ?',
+        whereArgs: [journal.journalEntryID]);
   }
 
   Future delete(JournalEntryModel journal) async {
@@ -105,18 +105,13 @@ class DiaryDatabase{
 
     var journalID = journal.journalEntryID;
 
-    await db.rawQuery("DELETE FROM $tableJournalEntry WHERE journalEntryID = $journalID");
+    await db.rawQuery(
+        "DELETE FROM $tableJournalEntry WHERE journalEntryID = $journalID");
     //db.delete(tableJournalEntry,journalID );
-
   }
 
-
-  Future close() async{
+  Future close() async {
     final db = await instance.database;
     db.close(); //closes connection to database.
   }
-
-
-
-
 }
