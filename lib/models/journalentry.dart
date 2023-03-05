@@ -1,32 +1,34 @@
-
 import 'dart:convert';
 
 final String tableJournalEntry = 'journalentry';
 
-
-
-class JournalEntryModelFields{
+class JournalEntryModelFields {
   static const String journalEntryID = 'journalEntryID';
   static const String ownerID = 'ownerID';
   static const String journalEntryTitle = 'journalEntryTitle';
   static const String journalEntryContent = 'journalEntryContent';
-  static const String journalEntryTags = "journalEntryTags"; // will parse a lsit of entry tags later.
+  static const String journalEntryTags =
+      "journalEntryTags"; // will parse a lsit of entry tags later.
   static const String journalEntryImage = "journalEntryImage";
   static const String journalEntryGeo = "journalEntryGeo";
-  static const String journalEntryCreationDate = "creationTime";         //DateTime.now();
+  static const String journalEntryCreationDate =
+      "creationTime"; //DateTime.now();
   static const String journalEntryLastUpdate = "updateTime";
 
   static final List<String> values = [
-    journalEntryID, ownerID, journalEntryTitle, journalEntryContent,
-    journalEntryTags, journalEntryImage, journalEntryGeo, journalEntryCreationDate,
+    journalEntryID,
+    ownerID,
+    journalEntryTitle,
+    journalEntryContent,
+    journalEntryTags,
+    journalEntryImage,
+    journalEntryGeo,
+    journalEntryCreationDate,
     journalEntryLastUpdate
   ];
-
 }
 
-
-class JournalEntryModel{
-
+class JournalEntryModel {
   int? journalEntryID;
   String ownerID;
   String journalEntryTitle;
@@ -38,7 +40,6 @@ class JournalEntryModel{
   DateTime journalEntryCreationDate;
   DateTime journalEntryLastUpdate;
 
-
   JournalEntryModel({
     //required this.journalEntryID,
     this.journalEntryID,
@@ -48,12 +49,11 @@ class JournalEntryModel{
     required this.journalEntryLastUpdate,
     this.journalEntryContent = '',
     this.journalEntryImage = '',
-    this.journalEntryGeo ='',
-
+    this.journalEntryGeo = '',
   });
 
   //Needed for the database create as it couldn't see ownerID.
-  String returnOwnerID(){
+  String returnOwnerID() {
     return ownerID;
   }
 
@@ -61,27 +61,36 @@ class JournalEntryModel{
    * Must turn the object into map, so use JSON.
    */
   Map<String, Object?> toJson() => {
-    JournalEntryModelFields.journalEntryID: journalEntryID,
-    JournalEntryModelFields.ownerID: ownerID,
-    JournalEntryModelFields.journalEntryTitle: journalEntryTitle,
-    JournalEntryModelFields.journalEntryContent: journalEntryContent,
-    JournalEntryModelFields.journalEntryGeo: journalEntryGeo,
-    JournalEntryModelFields.journalEntryImage: journalEntryImage,
-    JournalEntryModelFields.journalEntryTags: jsonEncode(journalEntryTags), //turns list to json strings
-    JournalEntryModelFields.journalEntryCreationDate: journalEntryCreationDate.toIso8601String(), // converting
-    JournalEntryModelFields.journalEntryLastUpdate: journalEntryLastUpdate.toIso8601String() // converting
-  };
+        JournalEntryModelFields.journalEntryID: journalEntryID,
+        JournalEntryModelFields.ownerID: ownerID,
+        JournalEntryModelFields.journalEntryTitle: journalEntryTitle,
+        JournalEntryModelFields.journalEntryContent: journalEntryContent,
+        JournalEntryModelFields.journalEntryGeo: journalEntryGeo,
+        JournalEntryModelFields.journalEntryImage: journalEntryImage,
+        JournalEntryModelFields.journalEntryTags:
+            jsonEncode(journalEntryTags), //turns list to json strings
+        JournalEntryModelFields.journalEntryCreationDate:
+            journalEntryCreationDate.toIso8601String(), // converting
+        JournalEntryModelFields.journalEntryLastUpdate:
+            journalEntryLastUpdate.toIso8601String() // converting
+      };
 
-  static JournalEntryModel fromJson(Map<String, Object?> json) => JournalEntryModel(
-    journalEntryID: json[JournalEntryModelFields.journalEntryID] as int,
-    ownerID: json[JournalEntryModelFields.ownerID] as String,
-    journalEntryTitle: json[JournalEntryModelFields.journalEntryTitle] as String,
-    journalEntryContent: json[JournalEntryModelFields.journalEntryContent] as String,
-    journalEntryImage: json[JournalEntryModelFields.journalEntryImage] as String,
-    journalEntryCreationDate: DateTime.parse(json[JournalEntryModelFields.journalEntryCreationDate] as String),
-    journalEntryLastUpdate: DateTime.parse(json[JournalEntryModelFields.journalEntryLastUpdate] as String),
-    //pending geting journal tags back out.
-  );
-
-
+  static JournalEntryModel fromJson(Map<String, Object?> json) =>
+      JournalEntryModel(
+        journalEntryID: json[JournalEntryModelFields.journalEntryID] as int,
+        ownerID: json[JournalEntryModelFields.ownerID] as String,
+        journalEntryTitle:
+            json[JournalEntryModelFields.journalEntryTitle] as String,
+        journalEntryContent:
+            json[JournalEntryModelFields.journalEntryContent] as String,
+        journalEntryImage:
+            json[JournalEntryModelFields.journalEntryImage] as String,
+        journalEntryCreationDate: DateTime.parse(
+            json[JournalEntryModelFields.journalEntryCreationDate] as String),
+        journalEntryLastUpdate: DateTime.parse(
+            json[JournalEntryModelFields.journalEntryLastUpdate] as String),
+        //pending geting journal tags back out.
+        journalEntryGeo:
+            json[JournalEntryModelFields.journalEntryGeo] as String,
+      );
 }
