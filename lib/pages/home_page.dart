@@ -1,7 +1,7 @@
 import 'package:deardiary/widgets/calendar_widget.dart';
 import 'package:deardiary/widgets/journalentry_dialog_structure_widget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:side_navigation/side_navigation.dart';
 import '../main.dart';
 import '../widgets/journalentry_entries_layout_widget.dart';
 
@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index = 0;
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     final tabs = [
@@ -29,27 +29,58 @@ class _HomePageState extends State<HomePage> {
         // Getting the title variable from main.dart
       ),
 
-      //shows list of entries
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: index,
-        onTap: (index) => setState(() => this.index = index),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Entries',
+      // Create the side naviation bar
+      body: Row(
+        children: [
+          SideNavigationBar(
+            selectedIndex: selectedIndex,
+            expandable: true,
+            initiallyExpanded: false,
+
+            theme: SideNavigationBarTheme(
+              backgroundColor: Colors.black54,
+              dividerTheme: SideNavigationBarDividerTheme.standard(),
+              togglerTheme: SideNavigationBarTogglerTheme.standard(),
+              itemTheme: SideNavigationBarItemTheme(
+                unselectedItemColor: Colors.black,
+                selectedItemColor: Colors.white,
+              ),
+            ),
+
+            items:  [
+              SideNavigationBarItem(
+                  icon: Icons.list_alt,
+                  label: 'Entries'
+              ),
+
+              SideNavigationBarItem(
+                  icon: Icons.calendar_month,
+                  label: 'Calendar'
+              ),
+
+              SideNavigationBarItem(
+                  icon: Icons.settings,
+                  label: 'Settings'
+              ),
+
+
+            ],
+
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Calendar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+
+          // want to add the body of text
+          Expanded(
+            child: tabs[selectedIndex],
           ),
         ],
       ),
 
-      body: tabs[index],
+
 
       //Want to add the button to add the task
       floatingActionButton: FloatingActionButton(
