@@ -7,13 +7,18 @@ import 'dart:io';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:provider/provider.dart';
 
+/***
+ * This class is for getting the status of number of entries per month and total
+ * entries count and display the counts for the current year.
+ */
 class DisplayStatsOfEntiresWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Call the provider
     final List<JournalEntryModel> entries = Provider.of<JournalEntryProvider>(context).allJournalEntries;
 
-
+    // Individual count per month
     int jan =_getCount(1, entries);
     int feb = _getCount(2, entries);
     int march = _getCount(3, entries);
@@ -27,7 +32,9 @@ class DisplayStatsOfEntiresWidget extends StatelessWidget {
     int nov = _getCount(11, entries);
     int dec = _getCount(12, entries);
 
+    // Getting the total count of the year
     int totalEntriesPerYear = jan + feb + march + april + may + june + july + august + sept + oct + nov + dec;
+
     return ListView(
       children: [
 
@@ -137,6 +144,9 @@ class DisplayStatsOfEntiresWidget extends StatelessWidget {
 
   }
 
+  /**
+   * Get the count of entries per month
+   */
   int _getCount(int month, List<JournalEntryModel> entries){
 
     int counter = 0;
@@ -147,6 +157,9 @@ class DisplayStatsOfEntiresWidget extends StatelessWidget {
     return counter;
   }
 
+  /**
+   * Get the current year of the entries
+   */
   int _getYear(List<JournalEntryModel> entries){
     int year = 0;
     for(int i= 0; i < entries.length; i++){
