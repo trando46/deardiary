@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:side_navigation/side_navigation.dart';
 import '../main.dart';
 import '../widgets/journalentry_entries_layout_widget.dart';
+import 'package:deardiary/widgets/display_stats_of_entries_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
     final tabs = [
       const JournalEntryEntriesLayoutWidget(),
       const CalendarWidget(),
+      DisplayStatsOfEntiresWidget(),
       Container(), // Temporary holder so that the Settings widget does not crash
       // Settings(),
     ];
@@ -56,6 +58,11 @@ class _HomePageState extends State<HomePage> {
               SideNavigationBarItem(
                   icon: Icons.calendar_month,
                   label: 'Calendar'
+              ),
+
+              SideNavigationBarItem(
+                  icon: Icons.stacked_bar_chart,
+                  label: 'Stats'
               ),
 
               SideNavigationBarItem(
