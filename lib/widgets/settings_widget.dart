@@ -19,9 +19,9 @@ class SettingsWidget extends StatelessWidget{
         // Button to route to the privacy page
         TextButton(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.blue,
+            foregroundColor: Colors.white,
             textStyle: const TextStyle(fontSize: 30),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.blueGrey.shade800,
           ),
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) =>PrivacyPage())),
           child: const Text('Privacy'),
@@ -31,9 +31,9 @@ class SettingsWidget extends StatelessWidget{
 
         TextButton(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.blue,
+            foregroundColor: Colors.white,
             textStyle: const TextStyle(fontSize: 30),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.blueGrey.shade800,
           ),
           onPressed: () {},  //Todo: route the user to logout the app
           child: const Text('Logout!'),
