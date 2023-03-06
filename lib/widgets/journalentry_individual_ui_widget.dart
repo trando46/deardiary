@@ -88,7 +88,7 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColorDark,
-                      fontSize: 20,
+                      fontSize: 25,
                     ),
                   ),
                 ],
