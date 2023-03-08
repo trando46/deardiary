@@ -71,7 +71,14 @@ dependencies:
   flutter_map: ^3.1.0
   latlng: ^0.2.0
 
+  #firebase stuff
+  firebase_core: ^2.7.0
+  firebase_auth: ^4.2.2
+  firebase_storage: ^11.0.10
+  cloud_firestore: ^4.3.1
 
+#  dependency_overrides:
+#    flutter_bloc: any
 
 dev_dependencies:
   flutter_test:
@@ -125,3 +132,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+

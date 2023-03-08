@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "122433301228",
+    "project_id": "deardiaryfirebase",
+    "storage_bucket": "deardiaryfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122433301228:android:0f73baf4ba145b143913c9",
+        "android_client_info": {
+          "package_name": "com.example.deardiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122433301228-v661euv76ba0h8p0f0mi8j8cibj2ghs5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9A7YRLzjkSSNTejkM7ntMoU6-2dgDGTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122433301228-v661euv76ba0h8p0f0mi8j8cibj2ghs5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
