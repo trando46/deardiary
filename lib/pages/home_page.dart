@@ -1,5 +1,6 @@
 import 'package:deardiary/widgets/calendar_widget.dart';
 import 'package:deardiary/widgets/journalentry_dialog_structure_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:side_navigation/side_navigation.dart';
 import '../main.dart';
@@ -31,6 +32,25 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(MyApp.title),
         // Getting the title variable from main.dart
+        automaticallyImplyLeading: false,
+        actions: [
+          PopupMenuButton(
+            onSelected: (String choice) {
+              if (choice == 'Logout') {
+                showDialog(
+                  context: context,
+                  builder: (context) => signOut(),
+                );
+              }
+            },
+            itemBuilder: ((context) => {'Logout'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList()),
+          ),
+        ],
       ),
 
       // Create the side naviation bar
@@ -40,7 +60,6 @@ class _HomePageState extends State<HomePage> {
             selectedIndex: selectedIndex,
             expandable: true,
             initiallyExpanded: false,
-
             theme: SideNavigationBarTheme(
               backgroundColor: Colors.black54,
               dividerTheme: SideNavigationBarDividerTheme.standard(),
@@ -50,31 +69,14 @@ class _HomePageState extends State<HomePage> {
                 selectedItemColor: Colors.white,
               ),
             ),
-
-            items:  [
+            items: [
+              SideNavigationBarItem(icon: Icons.list_alt, label: 'Entries'),
               SideNavigationBarItem(
-                  icon: Icons.list_alt,
-                  label: 'Entries'
-              ),
-
+                  icon: Icons.calendar_month, label: 'Calendar'),
               SideNavigationBarItem(
-                  icon: Icons.calendar_month,
-                  label: 'Calendar'
-              ),
-
-              SideNavigationBarItem(
-                  icon: Icons.stacked_bar_chart,
-                  label: 'Stats'
-              ),
-
-              SideNavigationBarItem(
-                  icon: Icons.settings,
-                  label: 'Settings'
-              ),
-
-
+                  icon: Icons.stacked_bar_chart, label: 'Stats'),
+              SideNavigationBarItem(icon: Icons.settings, label: 'Settings'),
             ],
-
             onTap: (index) {
               setState(() {
                 selectedIndex = index;
@@ -88,8 +90,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-
-
 
       //Want to add the button to add the task
       floatingActionButton: FloatingActionButton(
@@ -109,4 +109,27 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Widget signOut() => AlertDialog(
+        title: const Text('Sign Out'),
+        content: const Text('Are you sure you want to sign out?'),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.red),
+            ),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
+              Navigator.of(context).pop();
+            },
+            child: const Text('Sign Out'),
+          ),
+        ],
+      );
 }
