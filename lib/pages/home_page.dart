@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(MyApp.title),
         // Getting the title variable from main.dart
+        centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
           PopupMenuButton(
