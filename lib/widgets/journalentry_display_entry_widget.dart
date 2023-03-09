@@ -149,6 +149,7 @@ class DisplayJournalEntryWidget extends StatelessWidget {
         if (entry.journalEntryImage.isEmpty)
           Text(
             'No Image Attached',
+            softWrap: true,
             style: TextStyle(
               fontWeight: FontWeight.normal,
               color: Theme.of(context).primaryColor,
@@ -167,7 +168,7 @@ class DisplayJournalEntryWidget extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Geolocation: ',
+          'Location: ',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).primaryColor,
@@ -176,7 +177,8 @@ class DisplayJournalEntryWidget extends StatelessWidget {
         ),
         if (entry.journalEntryGeo.isEmpty)
           Text(
-            'No Geolocation Attached',
+            'No location attached',
+            softWrap: true,
             style: TextStyle(
               fontWeight: FontWeight.normal,
               color: Theme.of(context).primaryColor,
