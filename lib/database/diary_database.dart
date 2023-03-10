@@ -18,7 +18,7 @@ class DiaryDatabase {
       return _database!; //return database if it does not exist.
 
     //otherwise create new db.
-    _database = await _initDB('deardiary8.db');
+    _database = await _initDB('deardiary.db');
     return _database!; //null safety for database.
   }
 
