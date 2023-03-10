@@ -1,6 +1,7 @@
 import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_form_inputs_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -128,9 +129,11 @@ class _JournalEntryDialogStructureWidgetState
       }
     }
 
+    final String? userID = FirebaseAuth.instance.currentUser?.uid;
+
     final entry = JournalEntryModel(
       //journalEntryID: "", //no more journal entry id.
-      ownerID: "",
+      ownerID: userID ?? "",
       journalEntryTitle: title,
       journalEntryContent: description,
       journalEntryCreationDate: DateTime.now(),

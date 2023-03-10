@@ -1,27 +1,24 @@
 import 'package:deardiary/database/diary_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:deardiary/models/journalentry.dart';
 
 class JournalEntryProvider with ChangeNotifier {
-  //int journalEntryCounter = 0;
-
   List<JournalEntryModel> _journalEntry = [];
 
   List<JournalEntryModel> get allJournalEntries => _journalEntry.toList();
 
-  JournalEntryProvider(){
+  JournalEntryProvider() {
+    _journalEntry.clear();
     _getAllEntriesAsync();
   }
-
 
   Future _getAllEntriesAsync() async {
     final entries = await DiaryDatabase.instance.getAll();
     _journalEntry = entries;
+
     notifyListeners();
-
   }
-
-
 
 /*  void journalEntryIDCounter(JournalEntryModel journalEntryModel) {
     //journalEntryCounter++;

@@ -1,6 +1,7 @@
 import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_individual_ui_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,18 +15,21 @@ class JournalEntryEntriesLayoutWidget extends StatefulWidget {
       _JournalEntryEntriesLayoutWidgetState();
 }
 
-class _JournalEntryEntriesLayoutWidgetState extends State<JournalEntryEntriesLayoutWidget>
-{
+class _JournalEntryEntriesLayoutWidgetState
+    extends State<JournalEntryEntriesLayoutWidget> {
+  String user = FirebaseAuth.instance.currentUser!.uid;
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<JournalEntryModel> entries = //allEntries;
+    final List<JournalEntryModel> entriesAll = //allEntries;
         Provider.of<JournalEntryProvider>(context).allJournalEntries;
+
+    final entries =
+        entriesAll.where((element) => element.ownerID == user).toList();
 
     // Need to take care of no todos and todos
     return ListView.separated(

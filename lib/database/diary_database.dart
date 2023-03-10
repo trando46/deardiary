@@ -18,7 +18,7 @@ class DiaryDatabase {
       return _database!; //return database if it does not exist.
 
     //otherwise create new db.
-    _database = await _initDB('deardiary.db');
+    _database = await _initDB('deardiary8.db');
     return _database!; //null safety for database.
   }
 
@@ -47,7 +47,7 @@ class DiaryDatabase {
     await db.execute('''
         CREATE TABLE $tableJournalEntry (
         ${JournalEntryModelFields.journalEntryID} $idType,
-        ${JournalEntryModelFields.ownerID} $integerType,
+        ${JournalEntryModelFields.ownerID} $textType,
         ${JournalEntryModelFields.journalEntryTitle} $textType,
         ${JournalEntryModelFields.journalEntryContent} $textType,
         ${JournalEntryModelFields.journalEntryTags} $textType,
@@ -82,6 +82,19 @@ class DiaryDatabase {
     final db = await instance.database;
 
     final allEntries = await db.query(tableJournalEntry);
+
+    //final mappedEntries = allEntries.map((j) => JournalEntryModel.fromJson(j)).toList();
+
+    return allEntries.map((j) => JournalEntryModel.fromJson(j)).toList();
+    //return mappedEntries.where((e) => e.ownerID == ownerID).toList();
+  }
+
+  Future<List<JournalEntryModel>> getJournalEntriesByOwnerID(
+      String ownerID) async {
+    final db = await instance.database;
+
+    final allEntries = await db.rawQuery(
+        "SELECT * FROM $tableJournalEntry WHERE ownerID = $ownerID ORDER BY journalEntryID DESC");
 
     return allEntries.map((j) => JournalEntryModel.fromJson(j)).toList();
   }
