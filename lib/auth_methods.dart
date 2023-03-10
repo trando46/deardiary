@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'models/user.dart';
+
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -25,19 +27,38 @@ class AuthMethods {
     }
   }
 
-  Future<String> registerWithEmailAndPassword(
-      String email, String password) async {
+  Future<String> registerWithEmailAndPassword(String email, String password,
+      String username, String dateOfBirth) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      UserCredential user = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      UserModel userLocal = UserModel(
+        userID: user.user!.uid,
+        userName: username,
+        userDob: dateOfBirth,
+        email: email,
+      );
+
+      await _firestore
+          .collection('users')
+          .doc(user.user!.uid)
+          .set(userLocal.toJson())
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+
       return 'success';
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        return 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        return 'The account already exists for that email.';
+      if (e.code == 'email-already-in-use') {
+        return 'The email address is already in use by another account.';
+      } else if (e.code == 'invalid-email') {
+        return 'The email address is badly formatted.';
+      } else if (e.code == 'operation-not-allowed') {
+        return 'Email/password accounts are not enabled.';
+      } else if (e.code == 'weak-password') {
+        return 'The password is too weak.';
       } else {
-        return 'Unknown error.';
+        return 'Invalid email or password.';
       }
     } catch (e) {
       return 'Unknown error.';
