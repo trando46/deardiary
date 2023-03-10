@@ -29,12 +29,14 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
           motion: const ScrollMotion(),
 
           // A pane can dismiss the Slidable.
-          dismissible: DismissiblePane(onDismissed: () {}),
+          //dismissible: DismissiblePane(onDismissed: () {}),
+          dragDismissible: false,
 
           // All actions are defined in the children parameter.
           children: [
             // Allowing the user to edit
             SlidableAction(
+              borderRadius: BorderRadius.circular(10),
               onPressed: (_) {
                 //TODO: route it to the appropriate place
                 //editTodo(context, journalEntryModel);
@@ -47,6 +49,7 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
 
             // Allowing the user to delete
             SlidableAction(
+              borderRadius: BorderRadius.circular(10),
               onPressed: (_) {
                 //TODO: route it to the appropriate place
                 deleteEntry(context, journalEntryModel);
@@ -73,25 +76,57 @@ class JournalEntryIndividualUIWidget extends StatelessWidget {
         //TODO: route to the appropriate page later
         onTap: () => displayJournalContent(context, journalEntryModel),
         child: Container(
-          color: Colors.white,
           // Padding between the interior boxes
-          padding: const EdgeInsets.all(15),
+          //padding: const EdgeInsets.all(15),
+          constraints: const BoxConstraints(minHeight: 70, maxHeight: 70),
+          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
+          decoration: Decoration.lerp(
+            BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            0.3,
+          ),
           child: Row(
             children: [
-              // This is a place holder for when we need to add more attributes
-              // to the card later
-              Column(
-                children: [
-                  // The title of the card display
-                  Text(
-                    journalEntryModel.journalEntryTitle,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColorDark,
-                      fontSize: 25,
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      journalEntryModel.journalEntryTitle,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

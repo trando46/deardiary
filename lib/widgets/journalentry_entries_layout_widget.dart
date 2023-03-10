@@ -39,8 +39,8 @@ class _JournalEntryEntriesLayoutWidgetState
       dragStartBehavior: DragStartBehavior.start,
       // Adding the spacing between each task using the container
       separatorBuilder: (context, index) => Container(
-        height: 18,
-        color: Colors.black12,
+        height: 5,
+        //color: Colors.black12,
       ),
       itemBuilder: (context, index) {
         final entry = entries[index];
