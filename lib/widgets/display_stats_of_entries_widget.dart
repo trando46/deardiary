@@ -1,4 +1,5 @@
 import 'package:deardiary/models/journalentry.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,18 @@ import 'package:provider/provider.dart';
  * entries count and display the counts for the current year.
  */
 class DisplayStatsOfEntiresWidget extends StatelessWidget {
+  String user = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
     // Call the provider
-    final List<JournalEntryModel> entries = Provider.of<JournalEntryProvider>(context).allJournalEntries;
+    final List<JournalEntryModel> entriesAll =
+        Provider.of<JournalEntryProvider>(context).allJournalEntries;
+    final entries =
+        entriesAll.where((element) => element.ownerID == user).toList();
 
     // Individual count per month
-    int jan =_getCount(1, entries);
+    int jan = _getCount(1, entries);
     int feb = _getCount(2, entries);
     int march = _getCount(3, entries);
     int april = _getCount(4, entries);
@@ -33,126 +38,145 @@ class DisplayStatsOfEntiresWidget extends StatelessWidget {
     int dec = _getCount(12, entries);
 
     // Getting the total count of the year
-    int totalEntriesPerYear = jan + feb + march + april + may + june + july + august + sept + oct + nov + dec;
+    int totalEntriesPerYear = jan +
+        feb +
+        march +
+        april +
+        may +
+        june +
+        july +
+        august +
+        sept +
+        oct +
+        nov +
+        dec;
 
     return ListView(
       children: [
-
         Container(height: 5),
-
-        Text(_getYear(entries).toString() + " Entry Status", style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 35,
-          color: Colors.white,
-
-        ),),
-
+        Text(
+          _getYear(entries).toString() + " Entry Status",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 35,
+            color: Colors.white,
+          ),
+        ),
         Container(height: 15),
-
-        Text("January: " +jan.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "January: " + jan.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("February: " + feb.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "February: " + feb.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("March: " + march.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "March: " + march.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("April: " + april.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "April: " + april.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("May: " + may.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "May: " + may.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("June: " + june.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "June: " + june.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("July: " + july.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "July: " + july.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("August: " + august.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "August: " + august.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("September: " + sept.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "September: " + sept.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("October: " + oct.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "October: " + oct.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("November: " + nov.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "November: " + nov.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 7),
-
-        Text("December: " + dec.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),),
-
+        Text(
+          "December: " + dec.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
         Container(height: 20),
-
-        Text("Total Count = " + totalEntriesPerYear.toString(), style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 28,
-        ),),
-
-        ],
+        Text(
+          "Total Count = " + totalEntriesPerYear.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 28,
+          ),
+        ),
+      ],
     );
-
-
   }
 
   /**
    * Get the count of entries per month
    */
-  int _getCount(int month, List<JournalEntryModel> entries){
-
+  int _getCount(int month, List<JournalEntryModel> entries) {
     int counter = 0;
-    for(int i= 0; i < entries.length; i++){
-      if(month == entries[i].journalEntryCreationDate.month)
-        counter++;
+    for (int i = 0; i < entries.length; i++) {
+      if (month == entries[i].journalEntryCreationDate.month) counter++;
     }
     return counter;
   }
@@ -160,12 +184,11 @@ class DisplayStatsOfEntiresWidget extends StatelessWidget {
   /**
    * Get the current year of the entries
    */
-  int _getYear(List<JournalEntryModel> entries){
+  int _getYear(List<JournalEntryModel> entries) {
     int year = 0;
-    for(int i= 0; i < entries.length; i++){
+    for (int i = 0; i < entries.length; i++) {
       year = entries[i].journalEntryCreationDate.year;
     }
     return year;
   }
-
 }
