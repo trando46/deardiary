@@ -130,8 +130,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   JournalEntryIndividualUIWidget(
                       journalEntryModel: currentDate[i]),
                   Container(
-                    height: 18,
-                    color: Colors.black12,
+                    height: 5,
+                    //color: Colors.black12,
                   ),
                 ],
               )
