@@ -70,6 +70,7 @@ class _SignInWidgetState extends State<SignInWidget> {
     return TextFormField(
       controller: _emailController,
       onChanged: onEmailChanged,
+      keyboardType: TextInputType.emailAddress,
       //initialValue: email,
       decoration: const InputDecoration(
         labelText: "Email",
