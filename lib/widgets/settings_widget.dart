@@ -43,10 +43,38 @@ class SettingsWidget extends StatelessWidget {
             textStyle: const TextStyle(fontSize: 30),
             backgroundColor: Colors.blueGrey.shade800,
           ),
-          onPressed: () {}, //Todo: route the user to logout the app
+          onPressed: () {
+            showDialog(
+                context: context, builder: (context) => signOut(context));
+          },
           child: const Text('Logout!'),
         ),
       ],
     );
   }
+
+  Widget signOut(BuildContext context) => AlertDialog(
+        title: const Text('Sign Out'),
+        content: const Text('Are you sure you want to sign out?'),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.red),
+            ),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
+              Navigator.of(context).pop();
+            },
+            child: const Text('Sign Out'),
+          ),
+        ],
+      );
 }
