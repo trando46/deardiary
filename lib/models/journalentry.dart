@@ -89,7 +89,6 @@ class JournalEntryModel {
             json[JournalEntryModelFields.journalEntryCreationDate] as String),
         journalEntryLastUpdate: DateTime.parse(
             json[JournalEntryModelFields.journalEntryLastUpdate] as String),
-        //pending geting journal tags back out.
         journalEntryGeo:
             json[JournalEntryModelFields.journalEntryGeo] as String,
       );
