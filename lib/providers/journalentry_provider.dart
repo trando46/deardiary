@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deardiary/database/diary_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:deardiary/models/journalentry.dart';
+import 'package:deardiary/database/firestore_methods.dart';
 
 class JournalEntryProvider with ChangeNotifier {
   List<JournalEntryModel> _journalEntry = [];
@@ -30,9 +32,54 @@ class JournalEntryProvider with ChangeNotifier {
 
     //Adding in journal entry connection. - Greg
     DiaryDatabase.instance.create(journalEntry);
+    updateOrAddJournal(journalEntry);
+
+    //TODO: Also add entry to users collection of journals.
+
 
     _getAllEntriesAsync();
     //notifyListeners();
+  }
+  Future<void> updateOrAddJournal(JournalEntryModel journal)
+  async {
+
+    var defaultDateTime = DateTime.now();
+    String defaultDateTimeString = defaultDateTime.toIso8601String();
+    // var defaultRelationship = new TaskRelationship(dstTaskID: "1", relation: TaskRelationshipEnum.subtaskOf);
+    // var jsonRelationship = defaultRelationship.toJson();
+    var db = FirebaseFirestore.instance;
+
+    /*
+      int? journalEntryID;
+      String ownerID;
+      String journalEntryTitle;
+      String journalEntryContent;
+      List<String> journalEntryTags = [];
+      //String journalEntryTags; //will now be a string with " " separating tags.
+      String journalEntryImage;
+      String journalEntryGeo;
+      DateTime journalEntryCreationDate;
+      DateTime journalEntryLastUpdate;
+      */
+
+    final outgoingJournal = <String, String>{
+      "ownerID": journal.ownerID,
+      "journalEntryTitle": journal.journalEntryTitle,
+      "journalEntryContent": journal.journalEntryContent,
+      "journalEntryImage": journal.journalEntryImage,
+      "journalEntryGeo": journal.journalEntryGeo, //TODO: Parse this maybe?
+      "journalEntryCreationDate" : journal.journalEntryCreationDate.toIso8601String(),
+      "journalEntryLastUpdate" : journal.journalEntryLastUpdate.toIso8601String(),
+    };
+
+    //var doc = db.collection("users").doc(journal.journalEntryID!.toString()); //use doc id to update. Not sure if this is the right one to use.
+    var doc = db.collection("users").doc(journal.ownerID); //use doc id to update. Not sure if this is the right one to use.
+    var doc2 = doc.collection("journals").doc();
+    doc2.set(outgoingJournal)
+    //.then((value) => _getAllEntriesAsync(),
+        .then((value) => null,
+        onError: (e) => print("Error writing document: $e"));
+
   }
 
   void updateOwnerID(JournalEntryModel entry, int ownerID) {
