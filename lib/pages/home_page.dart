@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      //Want to add the button to add the task
+      //Want to add the button to add the journal entry
       floatingActionButton: FloatingActionButton(
         // change the background color
         backgroundColor: Colors.black,
