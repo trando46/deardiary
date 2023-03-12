@@ -18,8 +18,11 @@ class JournalEntryProvider with ChangeNotifier {
   }
 
   Future _getAllEntriesAsync() async {
-    final entries = await DiaryDatabase.instance.getAll();
-    _journalEntry = entries;
+    //final entries = await DiaryDatabase.instance.getAll();
+    //_journalEntry = entries;
+
+
+    _journalEntry = await fsm.getAllOnlineEntries();
 
     notifyListeners();
   }
@@ -34,7 +37,7 @@ class JournalEntryProvider with ChangeNotifier {
 
     //Adding in journal entry connection. - Greg
     DiaryDatabase.instance.create(journalEntry);
-    fsm.updateOrAddJournal(journalEntry);
+    fsm.addJournal(journalEntry);
 
     //TODO: Also add entry to users collection of journals.
 
