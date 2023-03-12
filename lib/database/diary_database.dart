@@ -49,6 +49,7 @@ class DiaryDatabase {
     await db.execute('''
         CREATE TABLE $tableJournalEntry (
         ${JournalEntryModelFields.journalEntryID} $idType,
+        ${JournalEntryModelFields.onlineID} $textType,
         ${JournalEntryModelFields.ownerID} $textType,
         ${JournalEntryModelFields.journalEntryTitle} $textType,
         ${JournalEntryModelFields.journalEntryContent} $textType,
