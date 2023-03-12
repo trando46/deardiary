@@ -29,6 +29,8 @@ class DiaryDatabase {
     //final path = join(dbPath, filePath);
     final path = dbPath + filePath;
 
+    //databaseFactory.deleteDatabase(path);
+
     //return await openDatabase(path, version: 3, onCreate: _createDB, onUpgrade: _upgradeDB);
     return await openDatabase(path, version: 2, onCreate: _createDB);
   }
