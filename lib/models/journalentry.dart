@@ -5,10 +5,11 @@ final String tableJournalEntry = 'journalentry';
 class JournalEntryModelFields {
   static const String journalEntryID = 'journalEntryID';
   static const String ownerID = 'ownerID';
+  static const String onlineID = 'onlineID';
   static const String journalEntryTitle = 'journalEntryTitle';
   static const String journalEntryContent = 'journalEntryContent';
   static const String journalEntryTags =
-      "journalEntryTags"; // will parse a lsit of entry tags later.
+      "journalEntryTags"; // will parse a list of entry tags.
   static const String journalEntryImage = "journalEntryImage";
   static const String journalEntryGeo = "journalEntryGeo";
   static const String journalEntryCreationDate =
@@ -18,6 +19,7 @@ class JournalEntryModelFields {
   static final List<String> values = [
     journalEntryID,
     ownerID,
+    onlineID,
     journalEntryTitle,
     journalEntryContent,
     journalEntryTags,
@@ -31,6 +33,7 @@ class JournalEntryModelFields {
 class JournalEntryModel {
   int? journalEntryID;
   String ownerID;
+  String onlineID;
   String journalEntryTitle;
   String journalEntryContent;
   List<String> journalEntryTags = [];
@@ -43,6 +46,7 @@ class JournalEntryModel {
   JournalEntryModel({
     //required this.journalEntryID,
     this.journalEntryID,
+    this.onlineID = '',
     required this.ownerID,
     required this.journalEntryTitle,
     required this.journalEntryCreationDate,
@@ -62,6 +66,7 @@ class JournalEntryModel {
    */
   Map<String, Object?> toJson() => {
         JournalEntryModelFields.journalEntryID: journalEntryID,
+        JournalEntryModelFields.onlineID : onlineID,
         JournalEntryModelFields.ownerID: ownerID,
         JournalEntryModelFields.journalEntryTitle: journalEntryTitle,
         JournalEntryModelFields.journalEntryContent: journalEntryContent,
@@ -79,6 +84,7 @@ class JournalEntryModel {
       JournalEntryModel(
         journalEntryID: json[JournalEntryModelFields.journalEntryID] as int,
         ownerID: json[JournalEntryModelFields.ownerID] as String,
+        onlineID: json[JournalEntryModelFields.onlineID] as String,
         journalEntryTitle:
             json[JournalEntryModelFields.journalEntryTitle] as String,
         journalEntryContent:
