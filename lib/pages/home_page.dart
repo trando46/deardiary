@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
     // Need to create Scaffold
     return Scaffold(
+      key: Key("Homepage"),
       appBar: AppBar(
         title: Text(MyApp.title),
         // Getting the title variable from main.dart
@@ -40,6 +41,7 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         actions: [
           PopupMenuButton(
+            key: Key("HomePage popupMenu button"),
             onSelected: (String choice) {
               if (choice == 'Logout') {
                 showDialog(
@@ -117,6 +119,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget signOut() {
     return AlertDialog(
+      key: Key("HomePage dialog to sign out"),
       title: const Text('Sign Out'),
       content: const Text('Are you sure you want to sign out?'),
       actionsAlignment: MainAxisAlignment.center,
