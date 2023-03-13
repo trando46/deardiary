@@ -1,18 +1,17 @@
 import 'package:deardiary/database/diary_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:deardiary/models/journalentry.dart';
-import 'package:deardiary/database/firestore_methods.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'firestore_provider.dart';
 
 
 class JournalEntryProvider with ChangeNotifier {
   List<JournalEntryModel> _journalEntry = [];
-  FireStoreMethods fsm = FireStoreMethods();
+  FirestoreProvider _firestore;
 
   List<JournalEntryModel> get allJournalEntries => _journalEntry.toList();
 
-  JournalEntryProvider() {
+  JournalEntryProvider({required FirestoreProvider firestore}) : _firestore = firestore
+  {
     _journalEntry.clear();
     _getAllEntriesAsync();
   }
@@ -22,7 +21,7 @@ class JournalEntryProvider with ChangeNotifier {
     //_journalEntry = entries;
 
 
-    _journalEntry = await fsm.getAllOnlineEntries();
+    _journalEntry = await _firestore.getAllOnlineEntries();
 
     notifyListeners();
   }
@@ -37,7 +36,7 @@ class JournalEntryProvider with ChangeNotifier {
 
     //Adding in journal entry connection. - Greg
     DiaryDatabase.instance.create(journalEntry);
-    fsm.addJournal(journalEntry);
+    _firestore.addJournal(journalEntry);
 
     //TODO: Also add entry to users collection of journals.
 

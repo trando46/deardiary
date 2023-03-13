@@ -1,16 +1,17 @@
+import 'package:deardiary/providers/firestore_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/user.dart';
 
 class AuthMethods {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirestoreProvider _fsp;
+
+  AuthMethods(FirestoreProvider fsp) : _fsp = fsp;
 
   Future<String> loginWithEmailAndPassword(
       String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _fsp.fireauth.signInWithEmailAndPassword(email: email, password: password);
       return 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
@@ -30,7 +31,7 @@ class AuthMethods {
   Future<String> registerWithEmailAndPassword(String email, String password,
       String username, String dateOfBirth) async {
     try {
-      UserCredential user = await _auth.createUserWithEmailAndPassword(
+      UserCredential user = await _fsp.fireauth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       UserModel userLocal = UserModel(
@@ -40,7 +41,7 @@ class AuthMethods {
         email: email,
       );
 
-      await _firestore
+      await _fsp.firestore
           .collection('users')
           .doc(user.user!.uid)
           .set(userLocal.toJson())

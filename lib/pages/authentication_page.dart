@@ -8,6 +8,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:provider/provider.dart';
+import 'package:deardiary/providers/firestore_provider.dart';
+
 import '../auth_methods.dart';
 import '../widgets/signin_widget.dart';
 
@@ -92,15 +95,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   }
 
   void login() async {
+    final fsp = Provider.of<FirestoreProvider>(context, listen: false);
+
     if (_formKey.currentState!.validate()) {
-      String result = await AuthMethods().loginWithEmailAndPassword(
+      String result = await AuthMethods(fsp).loginWithEmailAndPassword(
         email,
         password,
       );
       if (result == "success") {
         if (kDebugMode) {
           print("Login successful");
-          print("User: ${FirebaseAuth.instance.currentUser!.email}");
+          print("User: ${fsp?.fireauth.currentUser!.email}");
         }
         Navigator.of(context).pop();
       } else {
@@ -117,6 +122,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   }
 
   void registerUser() async {
+    final fsp = Provider.of<FirestoreProvider>(context, listen: false);
+
     if (kDebugMode) {
       print("Registering user...");
       print("Date of Birth: $dateOfBirth");
@@ -124,7 +131,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
     if (_formKey.currentState!.validate()) {
       Navigator.of(context).pop();
-      String result = await AuthMethods().registerWithEmailAndPassword(
+      String result = await AuthMethods(fsp).registerWithEmailAndPassword(
         email,
         password,
         username,
@@ -134,7 +141,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       if (result == 'success') {
         if (kDebugMode) {
           print("Registration successful");
-          print("User: ${FirebaseAuth.instance.currentUser!.email}");
+          print("User: ${fsp.fireauth.currentUser!.email}");
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

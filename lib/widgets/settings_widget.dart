@@ -1,24 +1,28 @@
 import 'package:deardiary/models/journalentry.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:deardiary/pages/privacy_page.dart';
+import 'package:provider/provider.dart';
+import 'package:deardiary/providers/firestore_provider.dart';
+
 
 /***
  * This class is for the settings
  */
 class SettingsWidget extends StatelessWidget {
-  final user = FirebaseAuth.instance.currentUser;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    final fsp = Provider.of<FirestoreProvider>(context, listen: false);
+    final user = fsp.fireauth.currentUser!;
     return ListView(
       children: [
         Text(
-          "User: ${user!.email}",
+          "User: ${user.email}",
           style: TextStyle(fontSize: 30),
         ),
         // Button to route to the privacy page
@@ -69,7 +73,8 @@ class SettingsWidget extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(Colors.red),
             ),
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
+              final fsp = Provider.of<FirestoreProvider>(context, listen: false);
+              await fsp.fireauth.signOut();
               // ignore: use_build_context_synchronously
               Navigator.of(context).pop();
             },

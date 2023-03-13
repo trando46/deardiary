@@ -1,10 +1,10 @@
 import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_individual_ui_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:deardiary/providers/firestore_provider.dart';
 
 import '../database/diary_database.dart';
 
@@ -17,7 +17,7 @@ class JournalEntryEntriesLayoutWidget extends StatefulWidget {
 
 class _JournalEntryEntriesLayoutWidgetState
     extends State<JournalEntryEntriesLayoutWidget> {
-  String user = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +28,7 @@ class _JournalEntryEntriesLayoutWidgetState
     final List<JournalEntryModel> entriesAll = //allEntries;
         Provider.of<JournalEntryProvider>(context).allJournalEntries;
 
+    String user = Provider.of<FirestoreProvider>(context, listen: false).fireauth.currentUser!.uid;
     final entries =
         entriesAll.where((element) => element.ownerID == user).toList();
 

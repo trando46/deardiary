@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -6,7 +5,9 @@ import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:deardiary/widgets/journalentry_individual_ui_widget.dart';
-import '';
+import 'package:provider/provider.dart';
+import 'package:deardiary/providers/firestore_provider.dart';
+
 
 /***
  * Class calendar to allow users to filter based on date for their entry cards
@@ -41,8 +42,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   int _totalCount = 0;
   String _theSelectedDayDisplay = "";
 
-  String user = FirebaseAuth.instance.currentUser!.uid;
-
   @override
   void initState() {
     super.initState();
@@ -50,6 +49,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    String user =  Provider.of<FirestoreProvider>(context, listen: false).fireauth.currentUser!.uid;
+
     // Get the entries
     final List<JournalEntryModel> entriesAll =
         Provider.of<JournalEntryProvider>(context).allJournalEntries;

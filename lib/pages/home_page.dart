@@ -1,12 +1,14 @@
 import 'package:deardiary/widgets/calendar_widget.dart';
 import 'package:deardiary/widgets/journalentry_dialog_structure_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:side_navigation/side_navigation.dart';
 import '../main.dart';
 import '../widgets/journalentry_entries_layout_widget.dart';
 import 'package:deardiary/widgets/display_stats_of_entries_widget.dart';
 import 'package:deardiary/widgets/settings_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:deardiary/providers/firestore_provider.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,8 +18,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+
     final tabs = [
       const JournalEntryEntriesLayoutWidget(),
       const CalendarWidget(),
@@ -111,26 +115,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget signOut() => AlertDialog(
-        title: const Text('Sign Out'),
-        content: const Text('Are you sure you want to sign out?'),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+  Widget signOut() {
+    return AlertDialog(
+      title: const Text('Sign Out'),
+      content: const Text('Are you sure you want to sign out?'),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        ElevatedButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.red),
           ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.red),
-            ),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pop();
-            },
-            child: const Text('Sign Out'),
-          ),
-        ],
-      );
+          onPressed: () async {
+            final fsp = Provider.of<FirestoreProvider>(context, listen: false);
+            await fsp.fireauth.signOut(); //  FirebaseAuth.instance.signOut();
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pop();
+          },
+          child: const Text('Sign Out'),
+        ),
+      ],
+    );
+  }
 }

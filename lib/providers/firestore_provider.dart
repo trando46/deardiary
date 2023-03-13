@@ -1,14 +1,19 @@
-import 'dart:convert';
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:deardiary/models/user.dart';
 
 import '../models/journalentry.dart';
 
+class FirestoreProvider
+{
+  final FirebaseFirestore firestore;
+  final FirebaseAuth      fireauth;
 
-/*
-class FireStoreMethods {
+  FirestoreProvider([FirebaseFirestore? firestore, FirebaseAuth? fireauth])
+    : this.firestore = firestore ?? FirebaseFirestore.instance
+    , this.fireauth = fireauth ?? FirebaseAuth.instance;
+
 
   //TODO: Add method to add journal entry to user collection of journalentries.
   Future<void> addJournal(JournalEntryModel journal)
@@ -16,7 +21,7 @@ class FireStoreMethods {
 
     var defaultDateTime = DateTime.now();
     String defaultDateTimeString = defaultDateTime.toIso8601String();
-    var db = FirebaseFirestore.instance;
+    //var db = _filestore;
 
     final outgoingJournal = <String, String>{
       "ownerID": journal.ownerID,
@@ -29,7 +34,7 @@ class FireStoreMethods {
     };
 
     //var doc = db.collection("users").doc(journal.journalEntryID!.toString()); //use doc id to update. Not sure if this is the right one to use.
-    var doc = db.collection("users").doc(journal.ownerID); //use doc id to update. Not sure if this is the right one to use.
+    var doc = firestore.collection("users").doc(journal.ownerID); //use doc id to update. Not sure if this is the right one to use.
     var doc2 = doc.collection("journals").doc();
     doc2.set(outgoingJournal)
     //.then((value) => _getAllEntriesAsync(),
@@ -42,24 +47,23 @@ class FireStoreMethods {
   Future<List<JournalEntryModel>> getAllOnlineEntries()
   async {
 
-    var db = FirebaseFirestore.instance;
-    var user = FirebaseAuth.instance.currentUser;
+    //var db = FirebaseFirestore.instance;
+    //var user = FirebaseAuth.instance.currentUser;
     List<JournalEntryModel> returnList = <JournalEntryModel>[]; //required literal <>[] assignment
 
-    var snapshot = await db.collection("users").doc(user!.uid);
-    //var snapshot2 = snapshot.collection(user!.uid).get();
+    var snapshot = firestore.collection("users").doc(fireauth.currentUser!.uid);
     var snapshot2 = await snapshot.collection("journals").get();
 
     JournalEntryModel newJournalEntry;
 
     for (var doc in snapshot2.docs)
-      {
-        print(doc.id);
-        var data = doc.data;
-        newJournalEntry = convertJournalEntry(doc, user!.uid);
-        returnList.add(newJournalEntry);
+    {
+      print(doc.id);
+      var data = doc.data;
+      newJournalEntry = convertJournalEntry(doc, fireauth.currentUser!.uid);
+      returnList.add(newJournalEntry);
 
-      }
+    }
     //var x = 2;
 
     return returnList;
@@ -83,14 +87,5 @@ class FireStoreMethods {
 
   }
 
-
-  //TODO: Update a particular journal entry by document ID.
-
-  //TODO: Delete a particular journal entry
-
-  //TODO: Delete a user and all associated information.
-
 }
-*/
-
 

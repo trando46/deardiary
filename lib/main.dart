@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+import 'providers/firestore_provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,24 +32,34 @@ void main() async {
   //   }
   // }
 
-  runApp(MyApp());
+  runApp(MyApp(FirestoreProvider()));
 }
 
 class MyApp extends StatelessWidget {
   static final String title = 'Dear Diary';
+  final FirestoreProvider _firestore;
+
+  MyApp(FirestoreProvider firestore) : _firestore = firestore;
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => JournalEntryProvider(),
-        child: MaterialApp(
-          home: LandingPage(),
-          title: title,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primaryColor: Colors.black,
-            primarySwatch: Colors.blueGrey,
-            scaffoldBackgroundColor: Colors.blueGrey.shade200,
-          ),
+  Widget build(BuildContext context) {
+    final jep = JournalEntryProvider( firestore: _firestore );
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: jep),
+        Provider.value(value: _firestore)
+      ],
+      child: MaterialApp(
+        home: LandingPage(),
+        title: title,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.black,
+          primarySwatch: Colors.blueGrey,
+          scaffoldBackgroundColor: Colors.blueGrey.shade200,
         ),
-      );
+      ),
+    );
+  }
 }

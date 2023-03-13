@@ -1,7 +1,6 @@
 import 'package:deardiary/models/journalentry.dart';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_form_inputs_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:deardiary/providers/firestore_provider.dart';
 
 class JournalEntryDialogStructureWidget extends StatefulWidget {
   const JournalEntryDialogStructureWidget({Key? key}) : super(key: key);
@@ -129,7 +129,7 @@ class _JournalEntryDialogStructureWidgetState
       }
     }
 
-    final String? userID = FirebaseAuth.instance.currentUser?.uid;
+    final String? userID = Provider.of<FirestoreProvider>(context, listen: false).fireauth.currentUser?.uid;
 
     final entry = JournalEntryModel(
       //journalEntryID: "", //no more journal entry id.

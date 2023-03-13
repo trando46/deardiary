@@ -8,8 +8,8 @@ import 'package:deardiary/main.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'widget_home_page_test.mocks.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_core/firebase_core.dart';
 
 class JournalEntryDialogModel {
   int? journalEntryID = 1;

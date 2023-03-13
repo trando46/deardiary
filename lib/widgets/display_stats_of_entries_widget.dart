@@ -1,5 +1,4 @@
 import 'package:deardiary/models/journalentry.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +6,19 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:deardiary/providers/firestore_provider.dart';
 
 /***
  * This class is for getting the status of number of entries per month and total
  * entries count and display the counts for the current year.
  */
 class DisplayStatsOfEntiresWidget extends StatelessWidget {
-  String user = FirebaseAuth.instance.currentUser!.uid;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    String user = Provider.of<FirestoreProvider>(context, listen: false).fireauth.currentUser!.uid;
+
     // Call the provider
     final List<JournalEntryModel> entriesAll =
         Provider.of<JournalEntryProvider>(context).allJournalEntries;
