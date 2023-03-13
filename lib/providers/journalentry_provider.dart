@@ -52,7 +52,7 @@ class JournalEntryProvider with ChangeNotifier {
     journalEntry.journalEntryLastUpdate = DateTime.now();
 
     DiaryDatabase.instance.update(journalEntry);
-    fsm.updateJournal(journalEntry);
+    _firestore.updateJournal(journalEntry);
 
     _getAllEntriesAsync();
   }
@@ -115,7 +115,7 @@ class JournalEntryProvider with ChangeNotifier {
     entry.journalEntryLastUpdate = DateTime.now();
 
     DiaryDatabase.instance.update(entry);
-    fsm.updateGeolocation(entry);
+    _firestore.updateGeolocation(entry);
 
     _getAllEntriesAsync();
   }
@@ -123,6 +123,7 @@ class JournalEntryProvider with ChangeNotifier {
   void deleteJournalEntry(JournalEntryModel entry) {
     _journalEntry.remove(entry);
     DiaryDatabase.instance.delete(entry);
+    _firestore.deleteJournal(entry);
     _getAllEntriesAsync();
 
     notifyListeners();

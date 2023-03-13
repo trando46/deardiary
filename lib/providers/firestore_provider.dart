@@ -15,7 +15,7 @@ class FirestoreProvider
     , this.fireauth = fireauth ?? FirebaseAuth.instance;
 
 
-  //TODO: Add method to add journal entry to user collection of journalentries.
+  //Add method to add journal entry to user collection of journalentries.
   Future<void> addJournal(JournalEntryModel journal)
   async {
 
@@ -85,6 +85,49 @@ class FirestoreProvider
       //journalEntryID: ,
     );
 
+  }
+
+
+  Future<void> updateJournal(JournalEntryModel journal) async {
+    var doc = firestore
+        .collection("users")
+        .doc(journal.ownerID)
+        .collection("journals")
+        .doc(journal.onlineID);
+
+    doc.update({
+      "journalEntryTitle": journal.journalEntryTitle,
+      "journalEntryContent": journal.journalEntryContent,
+      "journalEntryImage": journal.journalEntryImage,
+      "journalEntryGeo": journal.journalEntryGeo,
+      "journalEntryLastUpdate":
+      journal.journalEntryLastUpdate.toIso8601String(),
+    });
+  }
+
+  Future<void> updateGeolocation(JournalEntryModel journal) async {
+    var doc = firestore
+        .collection("users")
+        .doc(journal.ownerID)
+        .collection("journals")
+        .doc(journal.onlineID);
+
+    doc.update({
+      "journalEntryGeo": journal.journalEntryGeo,
+      "journalEntryLastUpdate":
+      journal.journalEntryLastUpdate.toIso8601String(),
+    });
+  }
+
+  //Delete a particular journal entry
+  Future<void> deleteJournal(JournalEntryModel journal) async {
+    var doc = firestore
+        .collection("users")
+        .doc(journal.ownerID)
+        .collection("journals")
+        .doc(journal.onlineID);
+
+    doc.delete();
   }
 
 }
