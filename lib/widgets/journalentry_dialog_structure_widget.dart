@@ -3,6 +3,7 @@ import 'package:deardiary/providers/journalentry_provider.dart';
 import 'package:deardiary/widgets/journalentry_form_inputs_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
@@ -64,7 +65,8 @@ class _JournalEntryDialogStructureWidgetState
                   child: Row(
                     children: [
                       Container(
-                        key: Key("Display the image in the journalentry dialog structure"),
+                        key: Key(
+                            "Display the image in the journalentry dialog structure"),
                         height: 100,
                         width: 100,
                         color: Colors.black38,
@@ -79,7 +81,8 @@ class _JournalEntryDialogStructureWidgetState
                       Row(
                         children: [
                           FloatingActionButton(
-                            key: Key("Camera in the journalentry dialog structure"),
+                            key: Key(
+                                "Camera in the journalentry dialog structure"),
                             // change the background color
                             backgroundColor: Colors.black,
                             child: Icon(Icons.camera_alt_rounded),
@@ -89,7 +92,8 @@ class _JournalEntryDialogStructureWidgetState
                           ),
                           Container(width: 10),
                           FloatingActionButton(
-                            key: Key("Gallery in the journalentry dialog structure"),
+                            key: Key(
+                                "Gallery in the journalentry dialog structure"),
                             // change the background color
                             backgroundColor: Colors.black,
                             child: Icon(Icons.photo),
@@ -132,7 +136,11 @@ class _JournalEntryDialogStructureWidgetState
       }
     }
 
-    final String? userID = Provider.of<FirestoreProvider>(context, listen: false).fireauth.currentUser?.uid;
+    final String? userID =
+        Provider.of<FirestoreProvider>(context, listen: false)
+            .fireauth
+            .currentUser
+            ?.uid;
 
     final entry = JournalEntryModel(
       //journalEntryID: "", //no more journal entry id.
@@ -161,9 +169,14 @@ class _JournalEntryDialogStructureWidgetState
   getCamera() async {
     var img = await image.pickImage(source: ImageSource.camera);
     if (img != null) {
-      setState(() {
+      setState(() async {
         File filename = File(img.path);
-        List<int> name = filename.readAsBytesSync();
+        File compressedFile = await FlutterNativeImage.compressImage(
+          filename.path,
+          quality: 50,
+          percentage: 50,
+        );
+        List<int> name = compressedFile.readAsBytesSync();
         imageFile = base64Encode(name);
       });
     }
@@ -175,9 +188,14 @@ class _JournalEntryDialogStructureWidgetState
   getGallery() async {
     var img = await image.pickImage(source: ImageSource.gallery);
     if (img != null) {
-      setState(() {
+      setState(() async {
         File filename = File(img.path);
-        List<int> name = filename.readAsBytesSync();
+        File compressedFile = await FlutterNativeImage.compressImage(
+          filename.path,
+          quality: 50,
+          percentage: 50,
+        );
+        List<int> name = compressedFile.readAsBytesSync();
         imageFile = base64Encode(name);
       });
     }
