@@ -54,6 +54,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
+                key: Key('login'),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -69,6 +70,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 child: const Text("Sign In"),
               ),
               ElevatedButton(
+                  key: Key('Register button'),
                 onPressed: () {
                   showDialog(
                     context: context,
