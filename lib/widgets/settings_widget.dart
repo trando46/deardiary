@@ -28,6 +28,7 @@ class SettingsWidget extends StatelessWidget {
         ),
         // Button to route to the privacy page
         TextButton(
+          key: Key("Privacy button"),
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
             textStyle: const TextStyle(fontSize: 30),
@@ -43,6 +44,7 @@ class SettingsWidget extends StatelessWidget {
         ),
 
         TextButton(
+          key: Key("Setting logout button"),
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
             textStyle: const TextStyle(fontSize: 30),
