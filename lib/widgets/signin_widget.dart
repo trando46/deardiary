@@ -43,6 +43,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      key: Key('Sign In Dialog'),
       title: const Text("Sign In"),
       actionsAlignment: MainAxisAlignment.center,
       content: Column(
@@ -55,10 +56,12 @@ class _SignInWidgetState extends State<SignInWidget> {
       ),
       actions: [
         ElevatedButton(
+        key: Key("Sign In Dialog Cancel Button"),
           onPressed: () => Navigator.of(context).pop(),
           child: const Text("Cancel"),
         ),
         ElevatedButton(
+          key: Key('Sign In Dialog Sign In Button'),
           onPressed: onSignInPressed,
           child: const Text("Sign In"),
         ),
@@ -68,6 +71,7 @@ class _SignInWidgetState extends State<SignInWidget> {
 
   Widget _buildEmailField() {
     return TextFormField(
+      key: Key('Enter Email'),
       controller: _emailController,
       onChanged: onEmailChanged,
       keyboardType: TextInputType.emailAddress,
@@ -83,6 +87,7 @@ class _SignInWidgetState extends State<SignInWidget> {
 
   Widget _buildPasswordField() {
     return TextFormField(
+      key: Key('Enter Password'),
       controller: _passwordController,
       onChanged: onPasswordChanged,
       //initialValue: password,
