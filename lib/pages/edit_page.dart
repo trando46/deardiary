@@ -68,8 +68,7 @@ class EditJournalEntryState extends State<EditJournalEntry> {
       final provider =
           Provider.of<JournalEntryProvider>(context, listen: false);
 
-      provider.updateJournalEntry(
-          entry, title, content, geoLocation, imagePath);
+      provider.updateJournalEntry(entry, title, content);
 
       Navigator.of(context).pop();
     }
