@@ -64,6 +64,7 @@ class _JournalEntryDialogStructureWidgetState
                   child: Row(
                     children: [
                       Container(
+                        key: Key("Display the image in the journalentry dialog structure"),
                         height: 100,
                         width: 100,
                         color: Colors.black38,
@@ -78,6 +79,7 @@ class _JournalEntryDialogStructureWidgetState
                       Row(
                         children: [
                           FloatingActionButton(
+                            key: Key("Camera in the journalentry dialog structure"),
                             // change the background color
                             backgroundColor: Colors.black,
                             child: Icon(Icons.camera_alt_rounded),
@@ -87,6 +89,7 @@ class _JournalEntryDialogStructureWidgetState
                           ),
                           Container(width: 10),
                           FloatingActionButton(
+                            key: Key("Gallery in the journalentry dialog structure"),
                             // change the background color
                             backgroundColor: Colors.black,
                             child: Icon(Icons.photo),
