@@ -70,7 +70,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 child: const Text("Sign In"),
               ),
               ElevatedButton(
-                  key: Key('Register button'),
+                key: Key('Register button'),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -107,7 +107,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       if (result == "success") {
         if (kDebugMode) {
           print("Login successful");
-          print("User: ${fsp?.fireauth.currentUser!.email}");
+          print("User: ${fsp.fireauth.currentUser!.email}");
         }
         Navigator.of(context).pop();
       } else {
