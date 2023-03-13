@@ -52,6 +52,7 @@ class _JournalEntryFormInputsWidgetState
       );
 
   Widget titleFormWidget() => TextFormField(
+       key: Key("Journalentry form title"),
         // The initial title of the task that is displayed for the user to enter
         initialValue: entryTitle,
         // This will display whatever the user type for the task
@@ -68,7 +69,8 @@ class _JournalEntryFormInputsWidgetState
       );
 
   Widget descriptionFormWidget() => TextFormField(
-        // The initial description of the task that is displayed for the user to enter
+    key: Key("Journalentry form description"),
+    // The initial description of the task that is displayed for the user to enter
         initialValue: entryContent,
         // This will display whatever the user type for the task
         onChanged: userEntryContent,
@@ -88,7 +90,7 @@ class _JournalEntryFormInputsWidgetState
    * about recording their journal
    */
   Widget exitFormWidget(context) => Container(
-        key: Key('Exit'),
+        key: Key('Journalentry form exit'),
         child: ElevatedButton(
           child: Text('Exit'),
           onPressed: () => Navigator.pop(context),
@@ -101,6 +103,7 @@ class _JournalEntryFormInputsWidgetState
       );
 
   Widget saveFormWidget() => ElevatedButton(
+    key: Key("Journalentry form save"),
         onPressed: onSaved,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.green),
@@ -114,6 +117,7 @@ class _JournalEntryFormInputsWidgetState
         children: [
           const Text("Use Geolocation?    "),
           Switch(
+            key: Key("Journalentry form geolocation"),
             value: usingGeolocation,
             onChanged: (value) => setState(
               () {
