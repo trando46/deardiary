@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
@@ -11,6 +12,7 @@ import 'dart:io';
 
 import '../models/journalentry.dart';
 import '../providers/journalentry_provider.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 class EditJournalEntryWidget extends StatefulWidget {
   const EditJournalEntryWidget({
@@ -43,7 +45,7 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
   late VoidCallback onSave;
 
   late String geolocation;
-  int _radioValue = 0;
+  late String image;
 
   @override
   void initState() {
@@ -55,6 +57,7 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
     onSave = widget.onSave;
     onChangedGeo = widget.onChangedGeo;
     geolocation = entry.journalEntryGeo;
+    image = entry.journalEntryImage;
   }
 
   @override
@@ -74,9 +77,14 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
             // if (entry.journalEntryImage != '') _buildImageDisplay(context),
             const SizedBox(height: 20),
             _buildGeolocationRow(context),
+            if (entry.journalEntryGeo.isEmpty)
+              _buildAddGeolocationButton(context),
             if (entry.journalEntryGeo.isNotEmpty) _buildGeolocationDisplay(),
             if (entry.journalEntryGeo.isNotEmpty)
-              _buildUpdateGeolocationButton(context),
+              _buildRemoveAndUpdateGeolocationRow(context),
+            const SizedBox(height: 20),
+            _buildImageRow(context),
+            if (entry.journalEntryImage.isNotEmpty) _buildImageDisplay(context),
 
             const SizedBox(height: 20),
             _buildCreatedDateText(),
@@ -102,6 +110,7 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
 
   Widget _buildContent() => TextFormField(
         initialValue: entry.journalEntryContent,
+        maxLines: 4,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
@@ -174,6 +183,69 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
         ],
       );
 
+  Row _buildImageRow(BuildContext context) {
+    return Row(
+      children: [
+        const Text(
+          'Images:    ',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        _buildCaptureImageButton(context, entry, image),
+        _buildAttachImageButton(context, entry, image),
+        if (entry.journalEntryImage.isNotEmpty)
+          _buildRemoveImageButton(context),
+      ],
+    );
+  }
+
+  Widget _buildRemoveImageButton(context) {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () {
+        setState(() {
+          image = '';
+          updateImage(context);
+        });
+      },
+    );
+  }
+
+  Widget _buildCaptureImageButton(
+          BuildContext context, JournalEntryModel entry, String img) =>
+      IconButton(
+        icon: const Icon(Icons.camera_alt),
+        onPressed: () async {
+          _getFromCamera();
+          // if (img != File('')) {
+          //   addTaskImage(context, task, img);
+          // }
+        },
+      );
+
+  Widget _buildAttachImageButton(
+          BuildContext context, JournalEntryModel entry, String img) =>
+      IconButton(
+        icon: const Icon(Icons.attach_file),
+        onPressed: () async {
+          _getFromGallery();
+          // if (img != File('')) {
+          //   addTaskImage(context, task, img);
+          // }
+        },
+      );
+
+  Widget _buildImageDisplay(BuildContext context) {
+    Image img = Image.memory(base64Decode(entry.journalEntryImage));
+    return SizedBox(
+      height: 200,
+      width: 200,
+      child: img,
+    );
+  }
+
   Widget _buildGeolocationRow(BuildContext context) {
     return Row(
       children: [
@@ -195,6 +267,39 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
               fontSize: 20,
             ),
           )
+      ],
+    );
+  }
+
+  Widget _buildAddGeolocationButton(BuildContext context) => ElevatedButton(
+        key: const Key("EditAddGeolocationButton"),
+        onPressed: () async {
+          final location = await _determinePosition();
+          setState(() {
+            geolocation = "${location.latitude}, ${location.longitude}";
+            updateGeolocation(context);
+          });
+        },
+        child: const Text('Add Location'),
+      );
+
+  Widget _buildRemoveGeolocationButton(BuildContext context) => ElevatedButton(
+        key: const Key("EditRemoveGeolocationButton"),
+        onPressed: () async {
+          setState(() {
+            geolocation = "";
+            updateGeolocation(context);
+          });
+        },
+        child: const Text('Remove Location'),
+      );
+
+  Widget _buildRemoveAndUpdateGeolocationRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildRemoveGeolocationButton(context),
+        _buildUpdateGeolocationButton(context),
       ],
     );
   }
@@ -292,8 +397,53 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
         desiredAccuracy: LocationAccuracy.high);
   }
 
+  void _getFromGallery() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(
+        () async {
+          File filename = File(pickedFile.path);
+          File compressedFile = await FlutterNativeImage.compressImage(
+            filename.path,
+            quality: 50,
+            percentage: 50,
+          );
+          List<int> name = compressedFile.readAsBytesSync();
+          image = base64Encode(name);
+          updateImage(context);
+        },
+      );
+    }
+  }
+
+  void _getFromCamera() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(
+        () async {
+          File filename = File(pickedFile.path);
+          File compressedFile = await FlutterNativeImage.compressImage(
+            filename.path,
+            quality: 50,
+            percentage: 50,
+          );
+          List<int> name = compressedFile.readAsBytesSync();
+          image = base64Encode(name);
+          updateImage(context);
+        },
+      );
+    }
+  }
+
   void updateGeolocation(BuildContext context) {
     final provider = Provider.of<JournalEntryProvider>(context, listen: false);
     provider.updateJournalEntryGeo(entry, geolocation);
+  }
+
+  void updateImage(BuildContext context) {
+    final provider = Provider.of<JournalEntryProvider>(context, listen: false);
+    provider.updateJournalEntryImage(entry, image);
   }
 }
