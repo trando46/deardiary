@@ -59,6 +59,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         entriesAll.where((element) => element.ownerID == user).toList();
 
     return ListView(
+      key: Key("CalendarPage"),
       children: [
         Column(
           children: [
