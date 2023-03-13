@@ -14,6 +14,7 @@ class PrivacyPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      key: Key("PrivacyPage"),
       appBar: AppBar(
         title: const Text('Privacy'),
       ),
