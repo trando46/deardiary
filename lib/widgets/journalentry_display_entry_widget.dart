@@ -70,7 +70,7 @@ class DisplayJournalEntryWidget extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Description:\t',
+          'Content:\t',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).primaryColor,
@@ -161,7 +161,12 @@ class DisplayJournalEntryWidget extends StatelessWidget {
   }
 
   Widget _buildImageDisplay() {
-    return Image.memory(base64Decode(entry.journalEntryImage));
+    Image img = Image.memory(base64Decode(entry.journalEntryImage));
+    return SizedBox(
+      height: 200,
+      width: 200,
+      child: img,
+    );
   }
 
   Widget _buildGeolocationRow(BuildContext context) {
