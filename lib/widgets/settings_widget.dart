@@ -20,6 +20,7 @@ class SettingsWidget extends StatelessWidget {
     final fsp = Provider.of<FirestoreProvider>(context, listen: false);
     final user = fsp.fireauth.currentUser!;
     return ListView(
+      key: Key("SettingPage"),
       children: [
         Text(
           "User: ${user.email}",
