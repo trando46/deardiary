@@ -62,6 +62,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      key: Key('Register Dialog'),
       title: const Text("Register"),
       actionsAlignment: MainAxisAlignment.center,
       content: Column(
@@ -79,6 +80,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
       ),
       actions: [
         ElevatedButton(
+          key: Key('Register cancel button'),
           onPressed: () => Navigator.of(context).pop(),
           child: const Text("Cancel"),
         ),
@@ -92,6 +94,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
   Widget _buildEmailField() {
     return TextFormField(
+      key: Key("Register email"),
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
@@ -116,6 +119,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
   Widget _buildPasswordField() {
     return TextFormField(
+      key: Key('Register password'),
       controller: _passwordController,
       decoration: const InputDecoration(
         labelText: 'Password',
@@ -132,6 +136,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
   Widget _buildUsernameField() {
     return TextFormField(
+      key: Key("Register username"),
       controller: _usernameController,
       decoration: const InputDecoration(
         labelText: 'Username',
@@ -148,6 +153,7 @@ class _RegisterUserWidgetState extends State<RegisterUserWidget> {
 
   Widget _buildDateOfBirthField() {
     return TextFormField(
+      key: Key("Register birth"),
       controller: _dateOfBirthController,
       decoration: const InputDecoration(
         labelText: 'Date of Birth',
