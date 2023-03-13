@@ -9,8 +9,8 @@ class JournalEntryProvider with ChangeNotifier {
 
   List<JournalEntryModel> get allJournalEntries => _journalEntry.toList();
 
-  JournalEntryProvider({required FirestoreProvider firestore}) : _firestore = firestore
-  {
+  JournalEntryProvider({required FirestoreProvider firestore})
+      : _firestore = firestore {
     _journalEntry.clear();
     _getAllEntriesAsync();
   }
@@ -18,7 +18,6 @@ class JournalEntryProvider with ChangeNotifier {
   Future _getAllEntriesAsync() async {
     //final entries = await DiaryDatabase.instance.getAll();
     //_journalEntry = entries;
-
 
     _journalEntry = await _firestore.getAllOnlineEntries();
 
@@ -43,12 +42,10 @@ class JournalEntryProvider with ChangeNotifier {
     //notifyListeners();
   }
 
-  void updateJournalEntry(JournalEntryModel journalEntry, String title,
-      String content, String geo, String image) {
+  void updateJournalEntry(
+      JournalEntryModel journalEntry, String title, String content) {
     journalEntry.journalEntryTitle = title;
     journalEntry.journalEntryContent = content;
-    journalEntry.journalEntryGeo = geo;
-    journalEntry.journalEntryImage = image;
     journalEntry.journalEntryLastUpdate = DateTime.now();
 
     DiaryDatabase.instance.update(journalEntry);
@@ -101,13 +98,13 @@ class JournalEntryProvider with ChangeNotifier {
 
   void updateJournalEntryImage(
       JournalEntryModel entry, String journalEntryImage) {
-    if (_journalEntry.contains(entry)) {
-      _journalEntry[_journalEntry.indexOf(entry)].journalEntryImage =
-          journalEntryImage;
-      _journalEntry[_journalEntry.indexOf(entry)].journalEntryLastUpdate =
-          DateTime.now();
-    }
-    notifyListeners();
+    entry.journalEntryImage = journalEntryImage;
+    entry.journalEntryLastUpdate = DateTime.now();
+
+    DiaryDatabase.instance.update(entry);
+    _firestore.updateImage(entry);
+
+    _getAllEntriesAsync();
   }
 
   void updateJournalEntryGeo(JournalEntryModel entry, String journalEntryGeo) {
