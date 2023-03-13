@@ -54,6 +54,7 @@ class DisplayStatsOfEntiresWidget extends StatelessWidget {
         dec;
 
     return ListView(
+      key: Key("StatusPage"),
       children: [
         Container(height: 5),
         Text(
