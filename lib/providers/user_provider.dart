@@ -11,6 +11,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  UserModel? getUser(String userID)
+  {
+    return _user;
+  }
+
   void updateUserID(String userID) {
     _user!.userID = userID;
     notifyListeners();
@@ -25,17 +30,7 @@ class UserProvider with ChangeNotifier {
     _user!.userDob = userDob;
     notifyListeners();
   }
-
-  // void updateUserDescription(String userDescription) {
-  //   _user!.userDescription = userDescription;
-  //   notifyListeners();
-  // }
-
-  // void updateUserPicture(String userPicture) {
-  //   _user!.userPicture = userPicture;
-  //   notifyListeners();
-  // }
-
+  
   void deleteUser() {
     _user = null;
     notifyListeners();
