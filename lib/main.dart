@@ -38,12 +38,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   static final String title = 'Dear Diary';
   final FirestoreProvider _firestore;
+  final JournalEntryProvider jep;
 
-  MyApp(FirestoreProvider firestore) : _firestore = firestore;
+  MyApp(FirestoreProvider firestore) : _firestore = firestore,
+  jep = JournalEntryProvider(firestore: firestore);
+
 
   @override
   Widget build(BuildContext context) {
-    final jep = JournalEntryProvider( firestore: _firestore );
 
     return MultiProvider(
       providers: [
