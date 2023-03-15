@@ -15,8 +15,7 @@ class DisplayJournalEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
@@ -38,9 +37,8 @@ class DisplayJournalEntryWidget extends StatelessWidget {
               child: const Text("Exit"),
             )
           ],
-        ),
-      ),
-    );
+        )
+      );
   }
 
   Widget _buildTitleRow(BuildContext context) {
