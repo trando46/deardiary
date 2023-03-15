@@ -12,9 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:deardiary/pages/edit_page.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:deardiary/models/journalentry.dart';
-/**
- * This test class will focus on the edit component
- */
+
 void main() async
 {
   final mockUser = MockUser(isAnonymous: false,
@@ -24,6 +22,48 @@ void main() async
   final auth = MockFirebaseAuth(mockUser: mockUser, signedIn: true);
   final fsp = FirestoreProvider(FakeFirebaseFirestore(), auth);
 
+  testWidgets(
+      "Find the edit button on the journal entry and click on it to navigate to the edit page ", (
+      WidgetTester tester) async {
+    // Create a model
+    JournalEntryModel entryModel = JournalEntryModel(
+        ownerID: 'mockid',
+        //id must match mock user.
+        journalEntryTitle: "Hello",
+        journalEntryContent: "Bogus",
+        journalEntryCreationDate: DateTime.now(),
+        journalEntryLastUpdate: DateTime.now());
+
+    // Add the model to the provieder
+    var app = MyApp(fsp);
+    app.jep.addJournalEntry(entryModel);
+    await tester.pumpWidget(app);
+    expect(find.text(entryModel.journalEntryTitle), findsOneWidget);
+
+    await tester.drag(find.byType(Slidable), const Offset(200.0, 0.0));
+    await tester.pump(); //start animation
+    await tester.pump(const Duration(seconds: 2)); //jump to end of animation
+    expect(find.byIcon(Icons.edit), findsOneWidget);
+    expect(find.text('Edit'), findsWidgets);
+
+    await tester.tap(find.byIcon(Icons.edit));
+    await tester.pumpAndSettle();
+
+    //verify we move pages.
+    expect(find.byType(HomePage), findsNothing);
+    expect(find.byType(EditJournalEntry), findsOneWidget);
+
+    //verify stuff on edit page is there.
+    expect(find.text(entryModel.journalEntryTitle), findsOneWidget);
+    expect(find.text(entryModel.journalEntryContent), findsOneWidget);
+    expect(find.text('Save'), findsOneWidget);
+    expect(find.text('Cancel'), findsOneWidget);
+  }
+  );
+}
+
+
+/*
   testWidgets("Find the edit button on the journal entry and click on it to navigate to the edit page ", (WidgetTester tester) async {
     // Create a model
     JournalEntryModel entryModel = JournalEntryModel(
@@ -37,7 +77,8 @@ void main() async
     var storage = JournalEntryProvider(firestore: fsp);
     storage.addJournalEntry(entryModel);
 
-    final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
+*/
+/*    final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
 
     // pump the UI of the entry
     await tester.pumpWidget(
@@ -60,7 +101,7 @@ void main() async
     ));
 
     // Drag the UI entry to find the edit
-    await tester.drag(find.byType(Slidable), const Offset(50.0, 0.0));
+    await tester.drag(find.byType(Slidable), const Offset(200.0, 0.0));
     await tester.pump();
 
     expect(find.byIcon(Icons.edit),findsOneWidget);
@@ -75,7 +116,7 @@ void main() async
     expect(find.text(entryModel.journalEntryTitle), findsOneWidget);
     expect(find.text(entryModel.journalEntryContent),findsOneWidget);
     expect(find.text('Save'),findsOneWidget);
-    expect(find.text('Cancel'),findsOneWidget);
-  });
+    expect(find.text('Cancel'),findsOneWidget);*//*
 
-}
+  });
+*/
