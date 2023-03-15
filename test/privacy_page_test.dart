@@ -24,16 +24,13 @@ void main() async
 
 
   testWidgets(
-      "Find the settings and go to privacy page ", (WidgetTester tester) async {
+      "Find the settings and go to privacy page", (WidgetTester tester) async {
     // Create a model
     await tester.pumpWidget((MyApp(fsp)));
 
     // expect
     expect(find.byType(HomePage), findsOneWidget);
     expect(find.byIcon(Icons.add), findsOneWidget);
-
-    //final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
-
     expect(find.byIcon(Icons.settings), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.settings));
@@ -48,4 +45,8 @@ void main() async
 
   }
   );
+
+
+
+
 }
