@@ -15,10 +15,16 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:deardiary/pages/home_page.dart';
 
 
+import 'package:mockito/mockito.dart';
+
+class MockNavigatorObserver extends Mock implements NavigatorObserver {}
+
 
 
 void main() async
 {
+  final mockObserver = MockNavigatorObserver();
+
   final mockUser = MockUser(isAnonymous: false,
       uid: 'mockid',
       email: 'mock@mock.com',
@@ -58,7 +64,20 @@ void main() async
   testWidgets(
       "Find the dropdown button and go to logout button and press sign out will return user to auth page", (WidgetTester tester) async {
     // Create a model
-    await tester.pumpWidget((MyApp(fsp)));
+    //await tester.pumpWidget((MyApp(fsp)));
+
+/*    late NavigatorObserver mockObserver;
+
+    setUp(() {
+      mockObserver = MockNavigatorObserver();
+    });*/
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MyApp(fsp),
+        navigatorObservers: [mockObserver],
+      ),
+    );
 
     // expect
     expect(find.byType(HomePage), findsOneWidget);
@@ -74,14 +93,17 @@ void main() async
     await tester.tap(find.text("Logout"));
     await tester.pumpAndSettle();
 
+    expect(find.byType(HomePage), findsOneWidget);
+
     expect(find.text("Sign Out"), findsAtLeastNWidgets(2));
-
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
     await tester.tap(find.text("Sign Out").last);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
-    //var loginkey = find.byKey(const Key('login'));
-
-    //expect(find.byKey(const Key('login')), findsOneWidget);
+    //expect(find.byType(HomePage), findsNothing);
+    //expect(find.byType(AuthenticationPage), findsOneWidget);
 
   }
   );
