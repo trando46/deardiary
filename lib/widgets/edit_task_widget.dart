@@ -99,6 +99,7 @@ class _EditJournalEntryWidgetState extends State<EditJournalEntryWidget> {
   }
 
   Widget _buildTitle() => TextFormField(
+        key: const Key("EditTitleTFF"),
         initialValue: entry.journalEntryTitle,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
